@@ -1,4 +1,4 @@
-# NodeFlow
+# Map-Aggregate Runtime
 
 A different flow-based runtime.
 
@@ -27,10 +27,10 @@ INPUT: RetrieveData.method
 INPUT: SendData.url
 INPUT: SendData.method
 
-OUTPUT: SendData.outData
+OUTPUT: SendData
 
-RetrieveData.outData -> Map.inData
-Map.outData -> SendData.inData
+RetrieveData -> Map
+Map -> SendData
 ```
 
 ## Parameters

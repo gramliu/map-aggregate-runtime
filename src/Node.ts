@@ -1,21 +1,19 @@
-import { InputPort, OutputPort } from "./Port";
+import SchemaProperty from "./InputProperty";
+import Payload from "./Payload";
 
 // TODO: Figure out how to enforce typing of parameter values for input and output
 // based on input schema. Look at how mongoose does this
 // https://mongoosejs.com/docs/typescript.html
 
 /**
- * A node represents a single function in a flow-based program
+ * A node represents a single function in a map-aggregate manifest
  */
-export default abstract class Node<InputSchema, OutputSchema> {
+export default abstract class Node<Schema, T> {
   constructor(
     public name: string,
     public description: string,
     public inputs: {
-      [key in keyof InputSchema]: InputPort<InputSchema[key]>;
-    },
-    public outputs: {
-      [key in keyof OutputSchema]: OutputPort<OutputSchema[key]>;
+      [key in keyof Schema]: SchemaProperty<Schema[key]>;
     }
   ) {}
 
@@ -23,53 +21,41 @@ export default abstract class Node<InputSchema, OutputSchema> {
    * Process a set of `input`, as described by the node's `inputs`
    * to a set of outputs, as described by the node's `output`s
    */
-  abstract process(input: InputSchema): Promise<OutputSchema>;
+  abstract process(input: Schema, payloads: Payload[]): Promise<T[]>;
 
   /**
-   * Returns true if `name` names an input port on this node and false otherwise
+   * Returns true if `name` names an input property on this node and false otherwise
    */
-  public hasInputPort(name: string): boolean {
+  public hasSchemaProperty(name: string): boolean {
     return name in this.inputs;
   }
 
   /**
-   * Returns true if `name` names an output port on this node and false otherwise
+   * Get an input property on this node
+   * @throws an error if the key does not name an input property on this node
    */
-  public hasOutputPort(name: string): boolean {
-    return name in this.outputs;
+  public getSchemaProperty(
+    name: keyof Schema
+  ): SchemaProperty<Schema[keyof Schema]> {
+    if (this.inputs[name as keyof Schema] == null) {
+      throw new Error(
+        `${String(name)} does not name an input property on node ${this.name}`
+      );
+    }
+    return this.inputs[name as keyof Schema];
   }
 
   /**
-   * Get an input port on this node
-   * @param name the key of the input port to get
-   *
-   * @throws an error if the key does not name an input port on this node
+   * Returns true if the specified property on the schema holds a value
    */
-  public getInputPort(
-    name: keyof InputSchema
-  ): InputPort<InputSchema[keyof InputSchema]> {
-    if (this.inputs[name as keyof InputSchema] == null) {
-      throw new Error(
-        `${String(name)} does not name an input port on node ${this.name}`
-      );
-    }
-    return this.inputs[name as keyof InputSchema];
+  public hasValue(propertyName: keyof Schema): boolean {
+    return this.getSchemaProperty(propertyName).value !== undefined;
   }
 
   /**
-   * Get an output port on this node
-   * @param name the key of the output port to get
-   *
-   * @throws an error if the key does not name output port on this node
+   * Get the value of the specified schema property
    */
-  public getOutputPort(
-    name: keyof OutputSchema
-  ): OutputPort<OutputSchema[keyof OutputSchema]> {
-    if (this.outputs[name as keyof OutputSchema] == null) {
-      throw new Error(
-        `${String(name)} does not name an output port on node ${this.name}`
-      );
-    }
-    return this.outputs[name as keyof OutputSchema];
+  public getValue(propertyName: keyof Schema): Schema[keyof Schema] {
+    return this.getSchemaProperty(propertyName).value;
   }
 }
