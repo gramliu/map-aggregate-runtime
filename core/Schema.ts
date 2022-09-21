@@ -3,7 +3,7 @@
  */
 export interface SchemaPropertyInfo<T> {
   description: string;
-  defaultValue: T;
+  defaultValue?: T;
   required?: boolean;
   overridable?: boolean;
 }
