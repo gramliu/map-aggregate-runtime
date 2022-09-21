@@ -6,6 +6,7 @@ A different flow-based runtime.
 
 ```
 TITLE: Example Flow
+PIPELINE: RetrieveData -> Map -> Aggregate
 
 RetrieveData(
   type: "node-flow/NetworkPull",
@@ -15,22 +16,14 @@ RetrieveData(
 Map(
   type: "my-package/Map",
 )
-SendData(
-  type: "node-flow/NetworkPush",
-  url: "https://api.example.com/endpoint"
-  method: "POST"
+Aggregate(
+  type: "node-flow/Aggregate",
+  operation: "sum"
 )
 
 INPUT: RetrieveData.url
 INPUT: RetrieveData.method
-
-INPUT: SendData.url
-INPUT: SendData.method
-
-OUTPUT: SendData
-
-RetrieveData -> Map
-Map -> SendData
+INPUT: Aggregate.operation
 ```
 
 ## Parameters

@@ -3,7 +3,7 @@ import Graph from "./Graph";
 /**
  * Utility class for loading graphs from different sources
  */
-export class GraphLoader {
+export default class GraphLoader {
   /**
    * Generate a graph from a string
    *
@@ -11,12 +11,12 @@ export class GraphLoader {
    */
   public static fromString(graphString: string): Graph {
     const lines = graphString.split("\n");
-    const title = this.getFirst(lines, "TITLE");
+    const title = this.getFirstWithTag(lines, "TITLE");
 
     return new Graph(title);
   }
 
-  private static getFirst(lines: string[], tag: string) {
+  private static getFirstWithTag(lines: string[], tag: string) {
     tag += ": ";
     const line = lines.find((line) => line.startsWith(tag));
     if (line == null) {
@@ -26,7 +26,7 @@ export class GraphLoader {
     return value;
   }
 
-  private static getAll(lines: string[], tag: string) {
+  private static getAllWithTag(lines: string[], tag: string) {
     const matching = lines.filter((line) => line.startsWith(tag));
     const values = matching.map((line) => line.substring(tag.length));
     return values;

@@ -1,41 +1,33 @@
-import Node from "./src/Node";
+import Schema from "src/Schema";
+import { Node, MapAggregateNode } from "./src/Node";
+import Payload from "./src/Payload";
 
-interface FuzzNodeInput {
-  inputA: string;
-  inputB: number;
-}
+type PullProps = {
+  url: string;
+  description: string;
+};
 
-interface FuzzNodeOutput {
-  result: string;
-}
-
-class FuzzNode extends Node<FuzzNodeInput, FuzzNodeOutput> {
-  constructor() {
-    super(
-      "Fuzz",
-      "Converts a fine-grained number into a format with coarser granularity.",
-      {
-        inputA: {
-          name: "inputA",
-          required: true,
-        },
-        inputB: {
-          name: "inputB",
-          required: true,
-        },
-      },
-      {
-        result: {
-          name: "result",
-          required: true,
-        },
-      }
-    );
+@MapAggregateNode("Pull", "Retrieve data from a remote source")
+class Pull extends Node<PullProps> {
+  process(input: Payload[]): Promise<Payload[]> {
+    throw new Error("Method not implemented.");
   }
 
-  async process(input: FuzzNodeInput): Promise<FuzzNodeOutput> {
+  getSchema(): Schema<PullProps> {
     return {
-      result: "hello",
+      url: {
+        description: "URL to pull data from",
+        defaultValue: "https://google.com",
+      },
+      description: {
+        description: "REST method to use",
+        defaultValue: "GET",
+      },
     };
   }
 }
+
+const pullFacebook = new Pull({
+  url: "google.com",
+  description: "GET",
+});

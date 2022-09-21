@@ -20,9 +20,10 @@
         "transform": "@zerollup/ts-transform-paths",
         "exclude": ["*"]
       }
-    ]
+    ],
+    "experimentalDecorators": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "*.ts"],
   "exclude": ["input"],
   "ts-node": {
     "transpileOnly": true,

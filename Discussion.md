@@ -1,5 +1,6 @@
 - Node should accept payloads of type `T extends InputSchema` so additional fields are allowed
 - Should we separate input ports from payloads?
+  It's always a single pipeline
 
 ```ts
 enum AggregateOperation {
