@@ -8,7 +8,7 @@ type InjectProps = {
 };
 
 @MapAggregateNode("Inject", "Inject arbitrary data for debugging")
-class Inject extends Node<InjectProps> {
+export default class Inject extends Node<InjectProps> {
   async process(input: Payload[]): Promise<Payload[]> {
     return this.params.data;
   }

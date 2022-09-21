@@ -9,7 +9,7 @@ type PullProps = {
 };
 
 @MapAggregateNode("Pull", "Retrieve data from a remote source")
-class Pull extends Node<PullProps> {
+export default class Pull extends Node<PullProps> {
   async process(input: Payload[]): Promise<Payload[]> {
     const { data } = await axios({
       url: this.params.url,

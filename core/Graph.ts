@@ -11,10 +11,11 @@ export default class Graph {
 
   constructor(public title: string) {
     this.pipeline = [];
+    this.nodeRegistry = {};
   }
 
-  public async execute(): Promise<Payload[]> {
-    let outputs: Payload[] = [];
+  public async execute(input: Payload[] = []): Promise<Payload[]> {
+    let outputs: Payload[] = input;
     for (const node of this.pipeline) {
       outputs = await node.process(outputs);
     }

@@ -3,7 +3,7 @@ export type ScalarType = string | number | boolean;
 export default interface Payload {
   contentType: string;
   contentValue: ScalarType;
-  timestamp: number;
+  timestamp?: number;
   geo?: {
     lat: number;
     lon: number;
