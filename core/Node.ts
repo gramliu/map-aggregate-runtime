@@ -79,4 +79,13 @@ export abstract class Node<P extends NodeProps> {
     const nodeType = Object.getPrototypeOf(this).name;
     return nodeType;
   }
+
+  /**
+   * Returns the descriptions for this node type, if it was registered
+   * with the @MapAggregateNode annotation
+   */
+  getDescription(): string {
+    const description = Object.getPrototypeOf(this).description;
+    return description;
+  }
 }
