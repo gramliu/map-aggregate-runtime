@@ -6,20 +6,35 @@ import Payload from "./Payload";
  * A graph represents a set of nodes and their connections
  */
 export default class Graph {
-  private pipeline: Node<NodeProps>[];
+  private pipeline: string[];
   private nodeRegistry: Record<string, Node<NodeProps>>;
 
-  constructor(public title: string) {
+  constructor(public readonly title: string) {
     this.pipeline = [];
     this.nodeRegistry = {};
   }
 
-  public async execute(input: Payload[] = []): Promise<Payload[]> {
-    let outputs: Payload[] = input;
-    for (const node of this.pipeline) {
-      outputs = await node.process(outputs);
+  /**
+   * Run the graph with the input, if specified
+   */
+  public async execute(
+    input: Payload[] = [],
+    debug: boolean = false
+  ): Promise<Payload[]> {
+    let payloads: Payload[] = input;
+    for (const nodeName of this.pipeline) {
+      const node = this.nodeRegistry[nodeName];
+      if (debug) {
+        console.log(`Running node: ${nodeName} (${node.getType()})`);
+        console.log("Input:", payloads);
+      }
+      payloads = await node.process(payloads);
+      if (debug) {
+        console.log("Output:", payloads);
+        console.log("=====");
+      }
     }
-    return outputs;
+    return payloads;
   }
 
   /**
@@ -30,24 +45,29 @@ export default class Graph {
    * @throws Error if a node named `name` already exists on the graph
    */
   public addNode<P extends NodeProps>(name: string, node: Node<P>) {
+    if (node == null) {
+      throw new Error("Cannot add a null node to the graph!");
+    }
     if (this.nodeRegistry[name] != null) {
       throw new Error(`A node named ${node} is already on this graph`);
     }
     this.nodeRegistry[name] = node;
-    this.pipeline.push(node);
+    this.pipeline.push(name);
   }
 
   /**
    * Load a graph from a string
    */
   public static fromString(graphString: string): Graph {
-    return GraphLoader.fromString(graphString);
+    return GraphLoader.parse(graphString);
   }
 
   /**
    * Return a string representation of this graph
    */
   public toString(): String {
-    return this.title;
+    const serializedPipeline = this.pipeline.map((node) => node.getType());
+    const pipelineStr = serializedPipeline.join(" -> ");
+    return `Graph{title: "${this.title}", pipeline: "${pipelineStr}"}`;
   }
 }

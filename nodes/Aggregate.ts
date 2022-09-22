@@ -13,17 +13,37 @@ export default class Aggregate extends Node<AggregateProps> {
     switch (this.params.operation) {
       case "count":
         return this.countPayloads(input);
+
+      case "sum":
+        return this.sumPayloads(input);
     }
   }
 
   countPayloads(input: Payload[]): Payload[] {
-    const length = input.filter((payload) =>
-      payload.hasOwnProperty(this.params.target)
-    ).length;
+    let length = input.length;
+    if (this.params.target) {
+      length = input.filter((payload) =>
+        payload.hasOwnProperty(this.params.target)
+      ).length;
+    }
     return [
       {
         contentType: "count",
         contentValue: length,
+      },
+    ];
+  }
+
+  sumPayloads(input: Payload[]): Payload[] {
+    const sum = input.reduce(
+      (acc, payload) =>
+        acc + (payload[this.params.target ?? "contentValue"] ?? 0),
+      0
+    );
+    return [
+      {
+        contentType: "sum",
+        contentValue: sum,
       },
     ];
   }

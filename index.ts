@@ -1,27 +1,17 @@
-import Graph from "./core/Graph";
-import Aggregate from "./nodes/Aggregate";
-import Inject from "./nodes/Inject";
-
-const data = [];
-for (let i = 0; i < 5; i++) {
-  data.push({
-    contentType: "dummy",
-    contentValue: 0,
-  });
-}
-
-const injectNode = new Inject({ data });
-
-const aggregateNode = new Aggregate({
-  target: "contentValue",
-  operation: "count",
-});
-
-const graph = new Graph("Counter");
-graph.addNode("Inject", injectNode);
-graph.addNode("Count", aggregateNode);
+import GraphLoader from "./core/GraphLoader";
+import fs from "fs";
+import Payload from "core/Payload";
 
 (async () => {
-  const results = await graph.execute();
-  console.log(results);
+  const manifest = fs.readFileSync("./input/basic.mf").toString();
+  const graph = GraphLoader.parse(manifest);
+  const dummyData = [] as Payload[];
+  for (let i = 0; i < 10; i++) {
+    dummyData.push({
+      contentType: "data",
+      contentValue: 5,
+    });
+  }
+  const result = await graph.execute(dummyData, true);
+  console.log(result);
 })();

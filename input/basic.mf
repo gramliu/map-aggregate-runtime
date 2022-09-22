@@ -1,0 +1,16 @@
+TITLE: Example Flow
+PIPELINE: Trigger -> Sum -> Count
+
+Trigger(
+  type: "Inject",
+)
+Sum(
+  type: "Aggregate",
+  operation: "sum"
+)
+Count(
+  type: "Aggregate",
+  operation: "count"
+)
+
+INPUT: Sum.operation
