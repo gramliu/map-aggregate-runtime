@@ -15,6 +15,7 @@ const injectNode = new Inject({ data });
 const aggregateNode = new Aggregate({
   target: "contentValue",
   operation: "count",
+  groupKey: "",
 });
 
 const graph = new Graph("Counter");

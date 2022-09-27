@@ -45,6 +45,7 @@ export default class GraphLoader {
         .trim();
 
       // Parse and instantiate the nodes
+      // TODO: Can we use the JS/TS parser to parse nodes?
       const nodes: Record<string, Node<NodeProps>> = {};
       while (this.hasNode(declarations)) {
         const { startIndex, endIndex, node, name } =

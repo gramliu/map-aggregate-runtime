@@ -66,8 +66,7 @@ export default class Graph {
    * Return a string representation of this graph
    */
   public toString(): String {
-    const serializedPipeline = this.pipeline.map((node) => node.getType());
-    const pipelineStr = serializedPipeline.join(" -> ");
+    const pipelineStr = this.pipeline.join(" -> ");
     return `Graph{title: "${this.title}", pipeline: "${pipelineStr}"}`;
   }
 }

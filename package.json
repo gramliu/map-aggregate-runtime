@@ -11,9 +11,9 @@
   "license": "ISC",
   "mapAggregate": {
     "nodes": [
-      "nodes/Aggregate.ts",
-      "nodes/Inject.ts",
-      "nodes/Pull.ts"
+      "nodes/Aggregate",
+      "nodes/Inject",
+      "nodes/Pull"
     ]
   },
   "devDependencies": {

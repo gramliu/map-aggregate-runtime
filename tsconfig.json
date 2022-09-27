@@ -10,7 +10,7 @@
     "rootDir": "./",
     "baseUrl": ".",
     "paths": {
-      "core/*": ["core/*", "*"]
+      "@core/*": ["./core/*", "*"]
     },
     "allowJs": true,
     "resolveJsonModule": true,
