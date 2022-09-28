@@ -38,6 +38,7 @@ export default class Aggregate extends Node<AggregateProps> {
   async process(input: Payload[]): Promise<Payload[]> {
     let value;
     let { operation, target, groupKey } = this.params;
+    groupKey = groupKey ?? "contentType"
     target = target ?? "contentValue"
 
     if (singularOperation.indexOf(operation as AggregateOperation) != -1) {
