@@ -14,7 +14,6 @@ import {
 } from "./operations/singular";
 
 type AggregateProps = {
-  target: string;
   operation:
     | "count"
     | "average"
@@ -24,7 +23,8 @@ type AggregateProps = {
     | "histogram_frequency"
     | "group_average"
     | "group_sum";
-  groupKey: string;
+  target?: string;
+  groupKey?: string;
 };
 
 type AggregateOperation = AggregateProps["operation"];
@@ -37,19 +37,23 @@ const singularOperation = ["count", "average", "sum"] as AggregateOperation[];
 export default class Aggregate extends Node<AggregateProps> {
   async process(input: Payload[]): Promise<Payload[]> {
     let value;
-    const { operation, target, groupKey } = this.params;
+    let { operation, target, groupKey } = this.params;
+    target = target ?? "contentValue"
 
     if (singularOperation.indexOf(operation as AggregateOperation) != -1) {
       // Operations that emit exactly one payload
       switch (operation) {
         case "count":
           value = getPayloadCount(input, target);
+          break
 
         case "sum":
           value = getPayloadSum(input, target);
+          break
 
         case "average":
           value = getPayloadAverage(input, target);
+          break
       }
 
       return [

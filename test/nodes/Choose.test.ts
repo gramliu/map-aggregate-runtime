@@ -1,20 +1,14 @@
-import { generatePayloads } from "../testUtil";
+import {generatePayloads, processPayloads} from "../testUtil";
 import Choose from "@nodes/Choose";
 
 test("Choose gets no more than k payloads", async () => {
-  const input = generatePayloads(10);
   const chooseNode = new Choose({ count: 5 });
-  const output = await chooseNode.process(input);
-
-  expect(input.length).toBe(10);
+  const output = await processPayloads(10, chooseNode);
   expect(output.length).toBe(5);
 });
 
 test("Choose does not truncate if less than k", async () => {
-  const input = generatePayloads(3);
   const chooseNode = new Choose({ count: 5 });
-  const output = await chooseNode.process(input);
-
-  expect(input.length).toBe(3);
+  const output = await processPayloads(3, chooseNode);
   expect(output.length).toBe(3);
 })
