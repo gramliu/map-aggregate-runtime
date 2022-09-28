@@ -1,6 +1,6 @@
 import GraphLoader from "./src/core/GraphLoader";
 import Payload from "./src/core/Payload";
-import fs from "fs";
+import * as fs from "fs";
 
 (async () => {
   const manifest = fs.readFileSync("input/basic.mf").toString();
