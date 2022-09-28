@@ -7,20 +7,15 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
-    "rootDir": "./",
+    "rootDir": ".",
     "baseUrl": ".",
     "paths": {
-      "@core/*": ["./core/*", "*"]
+      "@core/*": ["./core/*"],
+      "@nodes/*": ["./nodes/*"]
     },
     "allowJs": true,
     "resolveJsonModule": true,
-    "typeRoots": ["./node_modules/@types", "core/_types"],
-    "plugins": [
-      {
-        "transform": "@zerollup/ts-transform-paths",
-        "exclude": ["*"]
-      }
-    ],
+    "typeRoots": ["./node_modules/@types", "./core", "./nodes"],
     "experimentalDecorators": true
   },
   "include": ["core/**/*", "nodes/**/*", "*.ts"],
