@@ -1,5 +1,5 @@
-import Payload from "@core/Payload";
-import { getMatchingPayloads } from "..";
+import Payload from "../../../core/Payload";
+import { getMatchingPayloads } from "../index";
 
 /**
  * Returns the number of payloads that contain the `target` property

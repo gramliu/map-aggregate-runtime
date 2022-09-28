@@ -5,8 +5,8 @@ module.exports = {
   moduleDirectories: ["node_modules", __dirname],
   rootDir: __dirname,
   moduleNameMapper: {
-    "^@core/(.*)$": "<rootDir>/core/$1",
-    "^@nodes/(.*)$": "<rootDir>/nodes/$1",
+    "^@core/(.*)$": "<rootDir>/src/core/$1",
+    "^@nodes/(.*)$": "<rootDir>/src/nodes/$1",
   },
   coverageReporters: ["lcov"],
   globals: {

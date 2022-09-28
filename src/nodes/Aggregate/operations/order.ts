@@ -1,5 +1,5 @@
-import Payload from "@core/Payload";
-import { getMatchingPayloads, groupPayloads } from "..";
+import Payload from "../../../core/Payload";
+import { getMatchingPayloads, groupPayloads } from "../index";
 import { getPayloadSum } from "./singular";
 
 /**

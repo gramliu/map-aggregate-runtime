@@ -1,6 +1,6 @@
-import Graph from "./core/Graph";
-import Aggregate from "./nodes/Aggregate";
-import Inject from "./nodes/Inject";
+import Graph from "./src/core/Graph";
+import Aggregate from "./src/nodes/Aggregate";
+import Inject from "./src/nodes/Inject";
 
 const data = [];
 for (let i = 0; i < 5; i++) {

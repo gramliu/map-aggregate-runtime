@@ -7,19 +7,23 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
-    "rootDir": ".",
-    "baseUrl": ".",
+    "rootDir": "./src",
+    "baseUrl": "./src",
     "paths": {
-      "@core/*": ["./core/*"],
-      "@nodes/*": ["./nodes/*"]
+      "@core/*": ["core/*"],
+      "@nodes/*": ["nodes/*"]
     },
     "allowJs": true,
     "resolveJsonModule": true,
-    "typeRoots": ["./node_modules/@types", "./core", "./nodes"],
+    "typeRoots": ["./node_modules/@types",
+      "./src",
+    ],
     "experimentalDecorators": true
   },
-  "include": ["core/**/*", "nodes/**/*", "*.ts"],
-  "exclude": ["input"],
+  "include": ["./src/**/*"],
+  "exclude": [
+    "input"
+  ],
   "ts-node": {
     "transpileOnly": true,
     "transpiler": "ts-node/transpilers/swc-experimental"

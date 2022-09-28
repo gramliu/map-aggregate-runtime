@@ -2,7 +2,7 @@ import Graph from "./Graph";
 import { getRegisteredNode, Node, NodeProps } from "./Node";
 import ParseError from "./ParseError";
 import { ScalarType } from "./Payload";
-import { mapAggregate } from "../package.json";
+import { mapAggregate } from "../../package.json";
 
 interface NodeParseResult {
   name: string;

@@ -1,6 +1,6 @@
-import { MapAggregateNode, Node } from "@core/Node";
-import Payload from "@core/Payload";
-import Schema from "@core/Schema";
+import { MapAggregateNode, Node } from "../../core/Node";
+import Payload from "../../core/Payload";
+import Schema from "../../core/Schema";
 import {
   getFrequencyHistogram,
   getGroupAverage,
@@ -19,7 +19,7 @@ type AggregateProps = {
     | "average"
     | "sum"
     | "rank"
-    | "median"
+    | "median" // TODO: move to extract
     | "histogram_frequency"
     | "group_average"
     | "group_sum";
@@ -38,23 +38,21 @@ export default class Aggregate extends Node<AggregateProps> {
   async process(input: Payload[]): Promise<Payload[]> {
     let value;
     let { operation, target, groupKey } = this.params;
-    groupKey = groupKey ?? "contentType"
-    target = target ?? "contentValue"
 
     if (singularOperation.indexOf(operation as AggregateOperation) != -1) {
       // Operations that emit exactly one payload
       switch (operation) {
         case "count":
           value = getPayloadCount(input, target);
-          break
+          break;
 
         case "sum":
           value = getPayloadSum(input, target);
-          break
+          break;
 
         case "average":
           value = getPayloadAverage(input, target);
-          break
+          break;
       }
 
       return [
@@ -85,6 +83,7 @@ export default class Aggregate extends Node<AggregateProps> {
     return {
       target: {
         description: "The target field on each payload to aggregate from",
+        defaultValue: "contentValue",
       },
       operation: {
         description: "The aggregation operation to perform",
@@ -93,6 +92,7 @@ export default class Aggregate extends Node<AggregateProps> {
       groupKey: {
         description:
           "Field with which to group payloads to perform aggregations on",
+        defaultValue: "contentType",
       },
     };
   }

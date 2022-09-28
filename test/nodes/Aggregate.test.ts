@@ -1,5 +1,5 @@
 import { processPayloads } from "../testUtil";
-import Aggregate from "@nodes/Aggregate";
+import Aggregate from "../../src/nodes/Aggregate";
 
 test("Count is correct", async () => {
   const node = new Aggregate({ operation: "count" });
