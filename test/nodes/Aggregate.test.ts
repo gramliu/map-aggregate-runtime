@@ -18,3 +18,28 @@ test("Average is correct", async () => {
   const payload = output[0];
   expect(payload.contentValue).toBe(4.5);
 })
+
+test("Average throws for 0 payloads", async () => {
+  const node = new Aggregate({ operation: "average" });
+  await expect(async () => {
+    await processPayloads(0, node);
+  }).rejects.toThrow()
+})
+
+test("Sum is correct", async () => {
+  const node = new Aggregate({ operation: "sum" });
+  const output = await processPayloads(10, node);
+  expect(output.length).toBe(1);
+
+  const payload = output[0];
+  expect(payload.contentValue).toBe(45);
+})
+
+test("Sum is 0 for empty payloads", async () => {
+  const node = new Aggregate({ operation: "sum" });
+  const output = await processPayloads(0, node);
+  expect(output.length).toBe(1);
+
+  const payload = output[0];
+  expect(payload.contentValue).toBe(0);
+})
