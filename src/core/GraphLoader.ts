@@ -2,7 +2,7 @@ import Graph from "./Graph";
 import { getRegisteredNode, Node, NodeProps } from "./Node";
 import ParseError from "./ParseError";
 import { ScalarType } from "./Payload";
-import { mapAggregate } from "../../package.json";
+import { nodes } from "../config.json";
 
 interface NodeParseResult {
   name: string;
@@ -73,7 +73,6 @@ export default class GraphLoader {
    * Load nodes registered in package.json
    */
   public static loadNodes() {
-    const { nodes } = mapAggregate ?? { nodes: [] };
     for (const node of nodes) {
       require("../" + node);
     }

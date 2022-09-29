@@ -10,18 +10,6 @@
   },
   "author": "",
   "license": "ISC",
-  "mapAggregate": {
-    "nodes": [
-      "nodes/Aggregate",
-      "nodes/Choose",
-      "nodes/Extract",
-      "nodes/Filter",
-      "nodes/Fuzz",
-      "nodes/Inject",
-      "nodes/Pull",
-      "nodes/Rank"
-    ]
-  },
   "_moduleAliases": {
     "@core": "dist/core",
     "@nodes": "dist/nodes",
