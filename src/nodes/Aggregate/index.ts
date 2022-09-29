@@ -12,7 +12,7 @@ import {
   getPayloadCount,
   getPayloadSum,
 } from "./operations/singular";
-import getMatchingPayloads from "@nodes/util/getMatchingPayloads";
+import getMatchingPayloads from "@util/getMatchingPayloads";
 
 type AggregateProps = {
   operation:

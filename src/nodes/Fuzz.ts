@@ -1,8 +1,7 @@
 import { MapAggregateNode, Node } from "@core/Node";
 import Payload from "@core/Payload";
 import Schema from "@core/Schema";
-import getMatchingPayloads from "./util/getMatchingPayloads";
-import { getPayloadSum } from "@nodes/Aggregate/operations/singular";
+import getMatchingPayloads from "@util/getMatchingPayloads";
 
 type FuzzProps = {
   fuzzType: "likert" | "range" | "percent";

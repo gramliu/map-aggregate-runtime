@@ -1,6 +1,6 @@
-import { MapAggregateNode, Node } from "../core/Node";
-import Payload from "../core/Payload";
-import Schema from "../core/Schema";
+import { MapAggregateNode, Node } from "@core/Node";
+import Payload from "@core/Payload";
+import Schema from "@core/Schema";
 
 type InjectProps = {
   data: Payload[];

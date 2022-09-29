@@ -1,5 +1,5 @@
 import Payload from "@core/Payload";
-import getMatchingPayloads from "@nodes/util/getMatchingPayloads";
+import getMatchingPayloads from "@util/getMatchingPayloads";
 
 /**
  * Returns the number of payloads that contain the `target` property

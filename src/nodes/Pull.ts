@@ -1,7 +1,7 @@
 import axios from "axios";
-import { MapAggregateNode, Node } from "../core/Node";
-import Payload from "../core/Payload";
-import Schema from "../core/Schema";
+import { MapAggregateNode, Node } from "@core/Node";
+import Payload from "@core/Payload";
+import Schema from "@core/Schema";
 
 type PullProps = {
   url: string;

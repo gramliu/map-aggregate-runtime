@@ -19,7 +19,8 @@
   },
   "_moduleAliases": {
     "@core": "dist/core",
-    "@nodes": "dist/nodes"
+    "@nodes": "dist/nodes",
+    "@util": "dist/util"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
