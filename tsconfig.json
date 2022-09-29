@@ -15,15 +15,11 @@
     },
     "allowJs": true,
     "resolveJsonModule": true,
-    "typeRoots": ["./node_modules/@types",
-      "./src",
-    ],
+    "typeRoots": ["./node_modules/@types", "./src"],
     "experimentalDecorators": true
   },
   "include": ["./src/**/*"],
-  "exclude": [
-    "input"
-  ],
+  "exclude": ["input"],
   "ts-node": {
     "transpileOnly": true,
     "transpiler": "ts-node/transpilers/swc-experimental"

@@ -10,7 +10,7 @@ export function generatePayloads(n: number): Payload[] {
     payloads.push({
       contentType: "dummy",
       contentValue: i,
-    })
+    });
   }
   return payloads;
 }

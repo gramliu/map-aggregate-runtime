@@ -51,7 +51,7 @@ export function MapAggregateNode(name: string, description: string) {
  */
 export abstract class Node<P extends NodeProps> {
   constructor(protected readonly params: P) {
-    const entries: [keyof P, unknown][] = Object.entries(params)
+    const entries: [keyof P, unknown][] = Object.entries(params);
     for (const [key, val] of entries) {
       if (val == null) {
         this.params[key] = this.getSchema()[key].defaultValue;

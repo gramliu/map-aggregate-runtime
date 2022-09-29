@@ -54,11 +54,14 @@ test("Group sum is correct", async () => {
       const value = i * elementCount + j;
       input.push({
         contentType: `Group ${i}`,
-        contentValue: value
+        contentValue: value,
       });
     }
   }
-  const node = new Aggregate({ operation: "group_sum", groupKey: "contentType" })
+  const node = new Aggregate({
+    operation: "group_sum",
+    groupKey: "contentType",
+  });
   const output = await node.process(input);
 
   expect(input.length).toBe(groupCount * elementCount);
@@ -67,6 +70,8 @@ test("Group sum is correct", async () => {
   const elementSum = (elementCount * (elementCount - 1)) / 2;
   for (let i = 0; i < groupCount; i++) {
     const payload = output[i];
-    expect(payload.contentValue).toBe(i * elementCount * elementCount + elementSum);
+    expect(payload.contentValue).toBe(
+      i * elementCount * elementCount + elementSum
+    );
   }
 });
