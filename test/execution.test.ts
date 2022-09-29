@@ -1,8 +1,8 @@
-import GraphLoader from "./src/core/GraphLoader";
-import Payload from "./src/core/Payload";
+import GraphLoader from "@core/GraphLoader";
+import Payload from "@core/Payload";
 import * as fs from "fs";
 
-(async () => {
+test("Graph execution works normally", async () => {
   const manifest = fs.readFileSync("input/basic.mf").toString();
   const graph = GraphLoader.parse(manifest);
   const dummyData = [] as Payload[];
@@ -12,6 +12,5 @@ import * as fs from "fs";
       contentValue: 5,
     });
   }
-  const result = await graph.execute(dummyData, true);
-  console.log(result);
-})();
+  await graph.execute(dummyData);
+})

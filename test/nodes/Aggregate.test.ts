@@ -1,4 +1,4 @@
-import { processPayloads } from "@test/testUtil";
+import { processPayloads } from "../testUtil/testUtil";
 import Aggregate from "@nodes/Aggregate";
 
 test("Count is correct", async () => {

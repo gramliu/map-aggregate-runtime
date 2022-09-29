@@ -1,9 +1,6 @@
 TITLE: Example Flow
-PIPELINE: Trigger -> Sum -> Count
+PIPELINE: Sum -> Count
 
-Trigger(
-  type: "Inject",
-)
 Sum(
   type: "Aggregate",
   operation: "sum"

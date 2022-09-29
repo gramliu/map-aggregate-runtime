@@ -1,4 +1,4 @@
-import { processPayloads } from "@test/testUtil";
+import { processPayloads } from "@test/testUtil/testUtil";
 import Choose from "@nodes/Choose";
 
 test("Choose gets no more than k payloads", async () => {

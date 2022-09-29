@@ -1,20 +1,16 @@
 {
   "name": "@map-aggregate/runtime",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.ts",
+  "description": "A linear flow runtime for the Map-Aggregate project.",
+  "main": "test/index.ts",
   "scripts": {
-    "start": "ts-node index.ts",
-    "dev": "ts-node index.ts",
+    "start": "ts-node test/index.ts",
+    "dev": "ts-node test/index.ts",
+    "build": "tsc src/**/*.ts",
     "test": "jest test"
   },
-  "author": "",
+  "author": "gramliu",
   "license": "ISC",
-  "_moduleAliases": {
-    "@core": "dist/core",
-    "@nodes": "dist/nodes",
-    "@util": "dist/util"
-  },
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@babel/preset-env": "^7.19.3",
@@ -37,5 +33,16 @@
   "dependencies": {
     "axios": "^0.27.2",
     "module-alias": "^2.2.2"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gramliu/map-aggregate-runtime.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gramliu/map-aggregate-runtime/issues"
+  },
+  "homepage": "https://github.com/gramliu/map-aggregate-runtime#readme"
 }

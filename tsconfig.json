@@ -13,7 +13,6 @@
       "@core/*": ["core/*"],
       "@nodes/*": ["nodes/*"],
       "@util/*": ["util/*"],
-      "@test/*": ["../test/*"]
     },
     "allowJs": true,
     "resolveJsonModule": true,
@@ -21,7 +20,7 @@
     "experimentalDecorators": true
   },
   "include": ["./src/**/*"],
-  "exclude": ["input"],
+  "exclude": ["input", "test"],
   "ts-node": {
     "transpileOnly": true,
     "transpiler": "ts-node/transpilers/swc-experimental"

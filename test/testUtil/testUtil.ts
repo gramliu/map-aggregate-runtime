@@ -1,5 +1,5 @@
-import type Payload from "../src/core/Payload";
-import type { Node, NodeProps } from "../src/core/Node";
+import type Payload from "../../src/core/Payload";
+import type { Node, NodeProps } from "../../src/core/Node";
 
 /**
  * Generate `n` dummy payloads
