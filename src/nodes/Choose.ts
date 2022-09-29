@@ -1,6 +1,6 @@
-import { MapAggregateNode, Node } from "../core/Node";
-import Payload from "../core/Payload";
-import Schema from "../core/Schema";
+import { MapAggregateNode, Node } from "@core/Node";
+import Payload from "@core/Payload";
+import Schema from "@core/Schema";
 
 type ChooseProps = {
   count: number;
@@ -16,7 +16,7 @@ export default class Choose extends Node<ChooseProps> {
     }
   }
 
-  getSchema(): Schema<ChooseProps> {
+  getSchema(): Schema<Required<ChooseProps>> {
     return {
       count: {
         description:

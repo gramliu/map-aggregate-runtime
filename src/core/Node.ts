@@ -68,7 +68,7 @@ export abstract class Node<P extends NodeProps> {
   /**
    * Return the schema associated with this node
    */
-  abstract getSchema(): Schema<P>;
+  abstract getSchema(): Schema<Required<P>>;
 
   /**
    * Return a string representation of this node

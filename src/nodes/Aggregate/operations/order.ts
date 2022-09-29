@@ -1,6 +1,6 @@
-import Payload from "../../../core/Payload";
-import { getMatchingPayloads, groupPayloads } from "../index";
-import { getPayloadSum } from "./singular";
+import Payload from "@core/Payload";
+import {getMatchingPayloads, groupPayloads} from "@nodes/Aggregate";
+import {getPayloadSum} from "./singular";
 
 /**
  * Sorts the payloads based on the `target` field
@@ -25,8 +25,7 @@ export function getMedian(
   if (sorted.length == 0) {
     throw new Error("No matching payloads for median!");
   }
-  const median = input[sorted.length / 2];
-  return median;
+  return input[sorted.length / 2];
 }
 
 /**

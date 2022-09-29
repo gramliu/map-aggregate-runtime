@@ -22,7 +22,7 @@ export default class Pull extends Node<PullProps> {
     }
   }
 
-  getSchema(): Schema<PullProps> {
+  getSchema(): Schema<Required<PullProps>> {
     return {
       url: {
         description: "URL to pull data from",

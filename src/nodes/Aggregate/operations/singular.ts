@@ -1,5 +1,5 @@
-import Payload from "../../../core/Payload";
-import { getMatchingPayloads } from "../index";
+import Payload from "@core/Payload";
+import getMatchingPayloads from "@nodes/util/getMatchingPayloads";
 
 /**
  * Returns the number of payloads that contain the `target` property
@@ -19,7 +19,7 @@ export function getPayloadSum(
   input: Payload[],
   target: string = "contentValue"
 ): number {
-  const sum = input.reduce((acc, payload) => {
+  return input.reduce((acc, payload) => {
     const targetVal = payload[target] ?? 0;
     if (typeof targetVal !== "number") {
       throw new TypeError(
@@ -29,7 +29,6 @@ export function getPayloadSum(
     }
     return acc + (payload[target] ?? 0);
   }, 0);
-  return sum;
 }
 
 /**

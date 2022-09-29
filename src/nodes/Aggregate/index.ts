@@ -1,6 +1,6 @@
-import { MapAggregateNode, Node } from "../../core/Node";
-import Payload from "../../core/Payload";
-import Schema from "../../core/Schema";
+import { MapAggregateNode, Node } from "@core/Node";
+import Payload from "@core/Payload";
+import Schema from "@core/Schema";
 import {
   getFrequencyHistogram,
   getGroupAverage,
@@ -12,6 +12,7 @@ import {
   getPayloadCount,
   getPayloadSum,
 } from "./operations/singular";
+import getMatchingPayloads from "@nodes/util/getMatchingPayloads";
 
 type AggregateProps = {
   operation:
@@ -79,7 +80,7 @@ export default class Aggregate extends Node<AggregateProps> {
     }
   }
 
-  getSchema(): Schema<AggregateProps> {
+  getSchema(): Schema<Required<AggregateProps>> {
     return {
       target: {
         description: "The target field on each payload to aggregate from",
@@ -96,16 +97,6 @@ export default class Aggregate extends Node<AggregateProps> {
       },
     };
   }
-}
-
-/**
- * Returns a subsequence of `input` containing the `target` property
- */
-export function getMatchingPayloads(
-  input: Payload[],
-  target: string = "contentValue"
-) {
-  return input.filter((payload) => payload.hasOwnProperty(target));
 }
 
 /**

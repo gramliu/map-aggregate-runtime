@@ -16,7 +16,7 @@ export default class Inject extends Node<InjectProps> {
     }
   }
 
-  getSchema(): Schema<InjectProps> {
+  getSchema(): Schema<Required<InjectProps>> {
     return {
       data: {
         description: "The payloads to inject",
