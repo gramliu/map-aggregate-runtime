@@ -2,6 +2,7 @@ import { MapAggregateNode, Node } from "@core/Node";
 import Payload from "@core/Payload";
 import Schema from "@core/Schema";
 import getMatchingPayloads from "./util/getMatchingPayloads";
+import {getPayloadSum} from "@nodes/Aggregate/operations/singular";
 
 type FuzzProps = {
   fuzzType: "likert" | "range" | "percent";
@@ -18,11 +19,15 @@ type FuzzProps = {
 )
 export default class Fuzz extends Node<FuzzProps> {
   async process(input: Payload[]): Promise<Payload[]> {
-    const target = this.params.target;
+    const { fuzzType, target } = this.params;
     const matching = getMatchingPayloads(input, target);
-    return [...matching].sort((payloadA, payloadB) =>
-      payloadA[target] > payloadB[target] ? 1 : -1
-    );
+    switch (fuzzType) {
+      case "range":
+        return fuzzPayloadsIntoRange(matching, target, this.params.rangeStart, this.params.rangeSize);
+
+      case "percent":
+        return fuzzPayloadsIntoPercent(matching, target);
+    }
   }
 
   getSchema(): Schema<Required<FuzzProps>> {
@@ -51,7 +56,7 @@ export default class Fuzz extends Node<FuzzProps> {
 }
 
 /**
- * Fuzz payloads into bins of size `rangeStart`
+ * Fuzz payload values into bins of size `rangeStart`
  */
 function fuzzPayloadsIntoRange(
   input: Payload[],
@@ -59,11 +64,13 @@ function fuzzPayloadsIntoRange(
   rangeStart: number,
   rangeSize: number
 ): Payload[] {
-  const matching = getMatchingPayloads(input, target);
   const output = []
+  for (const payload of input) {
+    const value = payload[target];
 
-  for (const payload of matching) {
-    const value = payload[this.params.target];
+    if (typeof value !== "number") {
+      throw new Error("Can only perform range fuzz on numeric values!");
+    }
 
     const binLo = Math.floor((value - rangeStart) / rangeSize) * rangeSize + rangeStart;
     const binHi = binLo + rangeSize - 1;
@@ -74,4 +81,26 @@ function fuzzPayloadsIntoRange(
   }
 
   return output
+}
+
+/**
+ * Fuzz payload values into percentages of the maximum encountered value
+ */
+function fuzzPayloadsIntoPercent(
+    input: Payload[],
+    target: string
+): Payload[] {
+  const output = []
+  const payloadMax = input.reduce((max, payload) => payload.contentValue > max.contentValue ? payload : max).contentValue as number
+  if (typeof payloadMax !== "number") {
+    throw new Error("Can only perform percent fuzz on numeric values!")
+  }
+  for (const payload of input) {
+    const value = payload[target]
+    output.push({
+      ...payload,
+      [`${target}`]: (value * 100) / payloadMax
+    })
+  }
+  return output;
 }
