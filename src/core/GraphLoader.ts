@@ -70,9 +70,9 @@ export default class GraphLoader {
   }
 
   /**
-   * Load nodes
+   * Load nodes registered in package.json
    */
-  private static loadNodes() {
+  public static loadNodes() {
     const { nodes } = mapAggregate ?? { nodes: [] };
     for (const node of nodes) {
       require("../" + node);
@@ -86,11 +86,7 @@ export default class GraphLoader {
     }
 
     // Node declaration must contain an open/close parenthesis
-    if (manifest.indexOf("(") == -1 || manifest.indexOf(")") == -1) {
-      return false;
-    }
-
-    return true;
+    return !(manifest.indexOf("(") == -1 || manifest.indexOf(")") == -1);
   }
 
   /**

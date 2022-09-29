@@ -13,8 +13,13 @@
   "mapAggregate": {
     "nodes": [
       "nodes/Aggregate",
+      "nodes/Choose",
+      "nodes/Extract",
+      "nodes/Filter",
+      "nodes/Fuzz",
       "nodes/Inject",
-      "nodes/Pull"
+      "nodes/Pull",
+      "nodes/Rank"
     ]
   },
   "_moduleAliases": {

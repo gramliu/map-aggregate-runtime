@@ -13,6 +13,7 @@
       "@core/*": ["core/*"],
       "@nodes/*": ["nodes/*"],
       "@util/*": ["util/*"],
+      "@test/*": ["../test/*"]
     },
     "allowJs": true,
     "resolveJsonModule": true,
