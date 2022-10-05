@@ -1,13 +1,14 @@
 import GraphLoader from "./GraphLoader";
-import type { Node, NodeProps } from "./Node";
+import type Node from "./Node";
+import type { NodeProps } from "./Node";
 import Payload from "./Payload";
 
 /**
  * A graph represents a set of nodes and their connections
  */
 export default class Graph {
-  private pipeline: string[];
-  private nodeRegistry: Record<string, Node<NodeProps>>;
+  private readonly pipeline: string[];
+  private readonly nodeRegistry: Record<string, Node<NodeProps>>;
 
   constructor(public readonly title: string) {
     this.pipeline = [];
@@ -67,6 +68,6 @@ export default class Graph {
    */
   public toString(): String {
     const pipelineStr = this.pipeline.join(" -> ");
-    return `Graph{title: "${this.title}", pipeline: "${pipelineStr}"}`;
+    return `Graph{title: "${this.title}", pipeline: "${pipelineStr}", nodes: "${this.nodeRegistry}"}`;
   }
 }

@@ -1,7 +1,8 @@
-import { MapAggregateNode, Node } from "@core/Node";
+import Node from "@core/Node";
 import Payload, { ScalarType } from "@core/Payload";
 import Schema from "@core/Schema";
 import getMatchingPayloads from "@util/getMatchingPayloads";
+import { MapAggregateNode } from "@core/index";
 
 type FilterOperation =
   | "==="
@@ -33,16 +34,17 @@ export default class Filter extends Node<FilterProps> {
   getSchema(): Schema<Required<FilterProps>> {
     return {
       operation: {
-        description: "The operation to use to compare against comparisonValue. Order: (payload value) [operation] (comparisonValue)",
+        description:
+          "The operation to use to compare against comparisonValue. Order: (payload value) [operation] (comparisonValue)",
         defaultValue: "===",
       },
       target: {
         description: "The target property on the payload to compare",
-        defaultValue: "contentValue"
+        defaultValue: "contentValue",
       },
       comparisonValue: {
-        description: "The value to compare against"
-      }
+        description: "The value to compare against",
+      },
     };
   }
 }
@@ -50,30 +52,32 @@ export default class Filter extends Node<FilterProps> {
 /**
  * Returns the predicate function corresponding to the specified operation
  */
-function getPredicate(filterOperation: FilterOperation): ((value: ScalarType, comparison: ScalarType) => boolean) {
-  switch(filterOperation) {
+function getPredicate(
+  filterOperation: FilterOperation
+): (value: ScalarType, comparison: ScalarType) => boolean {
+  switch (filterOperation) {
     case "===":
-      return (a, b) => a === b
+      return (a, b) => a === b;
 
     case "!==":
-      return (a, b) => a !== b
+      return (a, b) => a !== b;
 
     case ">":
-      return (a, b) => a > b
+      return (a, b) => a > b;
 
     case ">=":
-      return (a, b) => a >= b
+      return (a, b) => a >= b;
 
     case "<":
-      return (a, b) => a < b
+      return (a, b) => a < b;
 
     case "<=":
-      return (a, b) => a <= b
+      return (a, b) => a <= b;
 
     case "includes":
-      return (a: string, b: string) => a.includes(b)
+      return (a: string, b: string) => a.includes(b);
 
     case "not includes":
-      return (a: string, b: string) => !a.includes(b)
+      return (a: string, b: string) => !a.includes(b);
   }
 }

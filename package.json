@@ -1,12 +1,13 @@
 {
   "name": "@map-aggregate/runtime",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A linear flow runtime for the Map-Aggregate project.",
-  "main": "test/index.ts",
+  "main": "build/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "start": "ts-node test/index.ts",
     "dev": "ts-node test/index.ts",
-    "build": "tsc src/**/*.ts",
+    "build": "tsc --project ./",
     "test": "jest test"
   },
   "author": "gramliu",

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "declaration": true,
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "es6",
@@ -12,7 +13,7 @@
     "paths": {
       "@core/*": ["core/*"],
       "@nodes/*": ["nodes/*"],
-      "@util/*": ["util/*"],
+      "@util/*": ["util/*"]
     },
     "allowJs": true,
     "resolveJsonModule": true,

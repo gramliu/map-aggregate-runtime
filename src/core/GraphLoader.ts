@@ -1,8 +1,9 @@
 import Graph from "./Graph";
-import { getRegisteredNode, Node, NodeProps } from "./Node";
+import Node, { NodeProps } from "./Node";
 import ParseError from "./ParseError";
 import { ScalarType } from "./Payload";
 import { nodes } from "../config.json";
+import { getRegisteredNode } from "@core/MapAggregateNode";
 
 interface NodeParseResult {
   name: string;

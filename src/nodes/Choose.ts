@@ -1,6 +1,7 @@
-import { MapAggregateNode, Node } from "@core/Node";
+import Node from "@core/Node";
 import Payload from "@core/Payload";
 import Schema from "@core/Schema";
+import { MapAggregateNode } from "@core/index";
 
 type ChooseProps = {
   count: number;

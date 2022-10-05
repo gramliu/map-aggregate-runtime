@@ -1,4 +1,5 @@
-import { MapAggregateNode, Node } from "@core/Node";
+import Node from "@core/Node";
+import MapAggregateNode from "@core/MapAggregateNode";
 import Payload from "@core/Payload";
 import Schema from "@core/Schema";
 import {

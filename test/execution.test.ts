@@ -13,4 +13,4 @@ test("Graph execution works normally", async () => {
     });
   }
   await graph.execute(dummyData);
-})
+});

@@ -8,7 +8,7 @@ module.exports = {
     "^@core/(.*)$": "<rootDir>/src/core/$1",
     "^@nodes/(.*)$": "<rootDir>/src/nodes/$1",
     "^@util/(.*)$": "<rootDir>/src/util/$1",
-    "^@test/(.*)$": "<rootDir>/test/$1"
+    "^@test/(.*)$": "<rootDir>/test/$1",
   },
   coverageReporters: ["lcov"],
   globals: {
