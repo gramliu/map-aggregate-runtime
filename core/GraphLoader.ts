@@ -3,7 +3,7 @@ import Node, { NodeProps } from "./Node";
 import ParseError from "./ParseError";
 import { ScalarType } from "./Payload";
 import { nodes } from "../config.json";
-import { getRegisteredNode } from "@core/MapAggregateNode";
+import { getRegisteredNode } from "./MapAggregateNode";
 
 interface NodeParseResult {
   name: string;

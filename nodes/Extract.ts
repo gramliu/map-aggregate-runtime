@@ -1,7 +1,7 @@
-import Node from "@core/Node";
-import Payload from "@core/Payload";
-import Schema from "@core/Schema";
-import { MapAggregateNode } from "@core/index";
+import Node from "../core/Node";
+import Payload from "../core/Payload";
+import Schema from "../core/Schema";
+import { MapAggregateNode } from "../core";
 
 type ExtractProps = {
   contentType: "median" | "ARIMA" | "DBSCAN" | "kriging" | "trilaterate";

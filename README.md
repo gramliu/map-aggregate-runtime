@@ -6,24 +6,20 @@ A different flow-based runtime.
 
 ```
 TITLE: Example Flow
-PIPELINE: RetrieveData -> Map -> Aggregate
+PIPELINE: MatchStreet -> Count
 
-RetrieveData(
-  type: "node-flow/NetworkPull",
-  url: "https://api.example.com/data"
-  method: "GET"
+MatchStreet(
+  type: "Filter",
+  operation: "===",
+  target: "streetName",
+  comparisonValue: "Forbes Avenue"
 )
-Map(
-  type: "my-package/Map",
-)
-Aggregate(
-  type: "node-flow/Aggregate",
-  operation: "sum"
+Count(
+  type: "Aggregate",
+  operation: "count"
 )
 
-INPUT: RetrieveData.url
-INPUT: RetrieveData.method
-INPUT: Aggregate.operation
+INPUT: MatchStreet.comparisonValue
 ```
 
 ## Parameters
@@ -31,8 +27,13 @@ INPUT: Aggregate.operation
 Nodes are declared as follows:
 
 ```
-PullData(
-  source: nodeflow/Pull,
-  url: "https://api.example.com/data"
+MatchStreet(
+  type: "Filter",
+  operation: "===",
+  target: "streetName",
+  comparisonValue: "Forbes Avenue"
 )
 ```
+`type` is a required parameter for every node declaration. This declares the type of the node.
+
+The remaining parameters are specific to each node.

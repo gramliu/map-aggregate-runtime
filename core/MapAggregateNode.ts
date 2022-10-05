@@ -1,4 +1,4 @@
-import Node, { NodeProps } from "@core/Node";
+import Node, { NodeProps } from "./Node";
 
 export type NodeConstructor<P extends NodeProps, T extends Node<P>> = new (
   params: P

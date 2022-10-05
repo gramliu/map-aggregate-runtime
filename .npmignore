@@ -1,0 +1,6 @@
+input
+test
+.github
+.idea
+*.md
+jest.config.js

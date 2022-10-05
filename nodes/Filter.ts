@@ -1,8 +1,8 @@
-import Node from "@core/Node";
-import Payload, { ScalarType } from "@core/Payload";
-import Schema from "@core/Schema";
-import getMatchingPayloads from "@util/getMatchingPayloads";
-import { MapAggregateNode } from "@core/index";
+import Node from "../core/Node";
+import Payload, { ScalarType } from "../core/Payload";
+import Schema from "../core/Schema";
+import getMatchingPayloads from "../util/getMatchingPayloads";
+import { MapAggregateNode } from "../core";
 
 type FilterOperation =
   | "==="

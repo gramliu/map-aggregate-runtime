@@ -1,8 +1,8 @@
-import Payload from "@core/Payload";
-import Schema from "@core/Schema";
-import getMatchingPayloads from "@util/getMatchingPayloads";
-import MapAggregateNode from "@core/MapAggregateNode";
-import Node from "@core/Node";
+import Payload from "../core/Payload";
+import Schema from "../core/Schema";
+import getMatchingPayloads from "../util/getMatchingPayloads";
+import MapAggregateNode from "../core/MapAggregateNode";
+import Node from "../core/Node";
 
 type RankProps = {
   target: string;

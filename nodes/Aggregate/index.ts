@@ -1,7 +1,7 @@
-import Node from "@core/Node";
-import MapAggregateNode from "@core/MapAggregateNode";
-import Payload from "@core/Payload";
-import Schema from "@core/Schema";
+import Node from "../../core/Node";
+import MapAggregateNode from "../../core/MapAggregateNode";
+import Payload from "../../core/Payload";
+import Schema from "../../core/Schema";
 import {
   getFrequencyHistogram,
   getGroupAverage,
@@ -13,7 +13,7 @@ import {
   getPayloadCount,
   getPayloadSum,
 } from "./operations/singular";
-import getMatchingPayloads from "@util/getMatchingPayloads";
+import getMatchingPayloads from "../../util/getMatchingPayloads";
 
 type AggregateProps = {
   operation:

@@ -1,6 +1,6 @@
 {
   "name": "@map-aggregate/runtime",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "A linear flow runtime for the Map-Aggregate project.",
   "main": "build/index.js",
   "types": "dist/index.d.ts",

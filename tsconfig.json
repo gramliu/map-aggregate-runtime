@@ -8,8 +8,8 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
-    "rootDir": "./src",
-    "baseUrl": "./src",
+    "rootDir": ".",
+    "baseUrl": ".",
     "paths": {
       "@core/*": ["core/*"],
       "@nodes/*": ["nodes/*"],
@@ -20,8 +20,8 @@
     "typeRoots": ["./node_modules/@types", "./src"],
     "experimentalDecorators": true
   },
-  "include": ["./src/**/*"],
-  "exclude": ["input", "test"],
+  "include": ["."],
+  "exclude": ["input", "test", "node_modules", "dist", "jest.config.js"],
   "ts-node": {
     "transpileOnly": true,
     "transpiler": "ts-node/transpilers/swc-experimental"

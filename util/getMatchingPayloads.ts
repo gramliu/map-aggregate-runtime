@@ -1,4 +1,4 @@
-import Payload from "@core/Payload";
+import Payload from "../core/Payload";
 
 /**
  * Returns a subsequence of `input` containing the `target` property

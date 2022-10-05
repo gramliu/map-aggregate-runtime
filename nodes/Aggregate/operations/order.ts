@@ -1,7 +1,7 @@
-import Payload from "@core/Payload";
-import { groupPayloads } from "@nodes/Aggregate";
+import Payload from "../../../core/Payload";
+import { groupPayloads } from "../index";
 import { getPayloadSum } from "./singular";
-import getMatchingPayloads from "@util/getMatchingPayloads";
+import getMatchingPayloads from "../../../util/getMatchingPayloads";
 
 /**
  * Sorts the payloads based on the `target` field
