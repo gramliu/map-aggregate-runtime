@@ -1,9 +1,9 @@
 node_modules
 .idea
 dist
-core/
-nodes/
-util/
+/core
+/nodes
+/util
 index.d.ts
 index.js
 index.js.map
