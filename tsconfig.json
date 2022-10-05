@@ -7,12 +7,12 @@
     "noImplicitAny": true,
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "dist",
-    "rootDir": ".",
-    "baseUrl": ".",
+    "outDir": ".",
+    "rootDir": "./src",
+    "baseUrl": "./src",
     "paths": {
       "@core/*": ["core/*"],
-      "@nodes/*": ["nodes/*"],
+      "@nodes/*": ["src/nodes/*"],
       "@util/*": ["util/*"]
     },
     "allowJs": true,
@@ -20,7 +20,7 @@
     "typeRoots": ["./node_modules/@types", "./src"],
     "experimentalDecorators": true
   },
-  "include": ["."],
+  "include": ["src/**/*.ts"],
   "exclude": ["input", "test", "node_modules", "dist", "jest.config.js"],
   "ts-node": {
     "transpileOnly": true,

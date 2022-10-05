@@ -1,5 +1,6 @@
 TITLE: Example Flow
-PIPELINE: Sum -> Count
+HARDWARE: "Wyze Camera RTSP"
+PIPELINE: [DetectParkingSpots] -> Sum -> Count
 
 Sum(
   type: "Aggregate",
