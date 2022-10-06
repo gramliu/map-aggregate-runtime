@@ -1,19 +1,18 @@
-import Node from "../../core/Node";
 import MapAggregateNode from "../../core/MapAggregateNode";
+import Node from "../../core/Node";
 import Payload from "../../core/Payload";
 import Schema from "../../core/Schema";
+import getMatchingPayloads from "../../util/getMatchingPayloads";
 import {
   getFrequencyHistogram,
   getGroupAverage,
   getGroupSum,
-  rankPayloads,
 } from "./operations/order";
 import {
   getPayloadAverage,
   getPayloadCount,
   getPayloadSum,
 } from "./operations/singular";
-import getMatchingPayloads from "../../util/getMatchingPayloads";
 
 type AggregateProps = {
   operation:
@@ -21,7 +20,6 @@ type AggregateProps = {
     | "average"
     | "sum"
     | "rank"
-    | "median" // TODO: move to extract
     | "histogram_frequency"
     | "group_average"
     | "group_sum";
@@ -66,9 +64,6 @@ export default class Aggregate extends Node<AggregateProps> {
     } else {
       // Operations that can emit more than one payload
       switch (operation) {
-        case "rank":
-          return rankPayloads(input, target);
-
         case "histogram_frequency":
           return getFrequencyHistogram(input, target);
 

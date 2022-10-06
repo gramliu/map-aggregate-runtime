@@ -4,32 +4,6 @@ import { getPayloadSum } from "./singular";
 import getMatchingPayloads from "../../../util/getMatchingPayloads";
 
 /**
- * Sorts the payloads based on the `target` field
- */
-export function rankPayloads(
-  input: Payload[],
-  target: string = "contentValue"
-): Payload[] {
-  const matching = getMatchingPayloads(input, target);
-  return [...matching].sort((payload) => payload[target]);
-}
-
-/**
- * Returns the median payload from the input.
- * @throws Error if there are no matching payloads
- */
-export function getMedian(
-  input: Payload[],
-  target: string = "contentValue"
-): Payload {
-  const sorted = rankPayloads(input, target);
-  if (sorted.length == 0) {
-    throw new Error("No matching payloads for median!");
-  }
-  return input[sorted.length / 2];
-}
-
-/**
  * Returns a mapping of unique values for the `target` property
  *  to the number of times they occur across the payloads
  */
