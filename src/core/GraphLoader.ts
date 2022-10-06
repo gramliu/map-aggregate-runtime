@@ -103,7 +103,7 @@ export default class GraphLoader {
       // Extract relevant fields
       const name = declaration.substring(0, openIdx).trim();
       const paramsLine = declaration.substring(openIdx + 1, closeIdx);
-      const params = this.parseParams(paramsLine);
+      const params = this.parseParams(`{${paramsLine}}`);
       const nodeType = params["type"].toString();
 
       // Instantiate node
@@ -123,55 +123,20 @@ export default class GraphLoader {
   /**
    * Parse the parameters to a node
    */
-  private static parseParams(line: string): Record<string, ScalarType> {
-    const commaRegex = /(?!\B"[^"]*),(?![^"]*"\B)/g;
-    const colonRegex = /(?!\B"[^"]*):(?![^"]*"\B)/g;
+  private static parseParams(paramsStr: string): Record<string, ScalarType> {
+    // Surround unescaped keys with quotation marks
+    const regex = new RegExp(/([a-zA-Z][a-zA-Z0-9_]+:)/g);
+    const escaped = paramsStr.replace(
+      regex,
+      (property: string) => `"${property.slice(0, property.length - 1)}":`
+    );
 
-    const params: Record<string, ScalarType> = {};
-    try {
-      // Identify comma breakpoints
-      const breakpoints = [];
-      let commaMatch;
-      while ((commaMatch = commaRegex.exec(line)) !== null) {
-        commaRegex.lastIndex++;
-        breakpoints.push(commaMatch.index);
-      }
-
-      // Split param string into segments using breakpoints
-      const breakpointCount = breakpoints.length;
-      const segments = [];
-      for (let i = 0; i <= breakpointCount; i++) {
-        const start = i == 0 ? -1 : breakpoints[i - 1];
-        const end = i == breakpointCount ? line.length : breakpoints[i];
-        const param = line.substring(start + 1, end).trim();
-        if (param.indexOf(":") != -1) {
-          segments.push(param);
-        }
-      }
-
-      // Parse segments into param-value entries
-      for (const segment of segments) {
-        const colonMatch = colonRegex.exec(segment);
-        if (colonMatch === null) {
-          // Missing colon in param
-          continue;
-        }
-
-        const colonMatchIdx = colonMatch.index;
-        const paramName = segment.substring(0, colonMatchIdx);
-        const paramValueRaw = segment.substring(colonMatchIdx + 1).trim();
-        const paramValue = this.parseValue(paramValueRaw);
-
-        params[paramName] = paramValue;
-      }
-    } catch (err) {
-      throw new ParseError("Could not parse param: " + line, err);
-    }
-
+    const params = JSON.parse(escaped);
     if (params["type"] == null) {
-      throw new ParseError("Missing type in params: " + JSON.stringify(params));
+      throw new ParseError(
+        "Missing required 'type' in params: " + JSON.stringify(params)
+      );
     }
-
     return params;
   }
 

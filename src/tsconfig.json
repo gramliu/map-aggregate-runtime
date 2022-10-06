@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../",
+    "rootDir": ".",
+    "baseUrl": ".",
+    "traceResolution": true
+  },
+  "include": ["**/*.ts"],
+  "ts-node": {
+    "transpileOnly": true,
+    "transpiler": "ts-node/transpilers/swc-experimental"
+  }
+}

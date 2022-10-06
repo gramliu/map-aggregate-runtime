@@ -10,18 +10,22 @@
     "outDir": ".",
     "rootDir": "./src",
     "baseUrl": "./src",
-    "paths": {
-      "@core/*": ["core/*"],
-      "@nodes/*": ["src/nodes/*"],
-      "@util/*": ["util/*"]
-    },
     "allowJs": true,
     "resolveJsonModule": true,
     "typeRoots": ["./node_modules/@types", "./src"],
     "experimentalDecorators": true
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["input", "test", "node_modules", "dist", "jest.config.js"],
+  "include": ["**/*.ts"],
+  "exclude": [
+    "node_modules",
+    "jest.config.js",
+    "input",
+    "test",
+    "core",
+    "nodes",
+    "util",
+    "index.d.ts"
+  ],
   "ts-node": {
     "transpileOnly": true,
     "transpiler": "ts-node/transpilers/swc-experimental"

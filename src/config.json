@@ -5,8 +5,6 @@
     "nodes/Extract",
     "nodes/Filter",
     "nodes/Fuzz",
-    "nodes/Inject",
-    "nodes/Pull",
     "nodes/Rank"
   ]
 }

@@ -1,11 +1,15 @@
 {
   "extends": "../tsconfig.json",
-  "rootDir": ".",
-  "baseUrl": ".",
   "compilerOptions": {
+    "rootDir": ".",
+    "baseUrl": ".",
     "paths": {
-      "@test/*": ["../test/*"]
+      "@test/*": ["../test/*"],
+      "@core/*": ["../src/core/*"],
+      "@nodes/*": ["../src/nodes/*"],
+      "@util/*": ["../src/util/*"]
     }
   },
-  "include": ["*"]
+  "include": ["**/*.ts"],
+  "exclude": ["."]
 }
