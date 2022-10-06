@@ -28,6 +28,13 @@ export default abstract class Node<P extends NodeProps> {
   abstract getSchema(): Schema<Required<P>>;
 
   /**
+   * Returns true if this node has the specified property and false otherwise
+   */
+  hasProperty(property: string): boolean {
+    return this.getSchema().hasOwnProperty(property);
+  }
+
+  /**
    * Return a string representation of this node
    */
   toString(): string {

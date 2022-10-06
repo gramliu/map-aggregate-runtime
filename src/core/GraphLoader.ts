@@ -1,9 +1,9 @@
+import { nodes } from "../config.json";
 import Graph from "./Graph";
+import { getRegisteredNode } from "./MapAggregateNode";
 import Node, { NodeProps } from "./Node";
 import ParseError from "./ParseError";
-import { ScalarType } from "./Payload";
-import { nodes } from "../config.json";
-import { getRegisteredNode } from "./MapAggregateNode";
+import type { ScalarType } from "./Payload";
 
 interface NodeParseResult {
   name: string;
@@ -24,44 +24,41 @@ export default class GraphLoader {
   public static parse(graphString: string): Graph {
     this.loadNodes();
     try {
+      const tags = ["TITLE", "PIPELINE", "INPUT", "HARDWARE"];
       const lines = graphString.split("\n");
+
       const title = this.getFirstWithTag(lines, "TITLE");
+      const hardware = JSON.parse(
+        this.getFirstWithTag(lines, "HARDWARE")
+      ).toString();
       const pipeline = this.getFirstWithTag(lines, "PIPELINE")
         .split("->")
         .map((node) => node.trim());
-      const inputs = this.getAllWithTag(lines, "INPUT");
-
-      const otherTags = ["TITLE", "PIPELINE", "INPUT"];
-
-      let declarations = lines
-        .filter((line) => {
-          for (const other of otherTags) {
-            if (line.startsWith(other) || line.length == 0) {
-              return false;
-            }
-          }
-          return true;
-        })
-        .join("\n")
-        .trim();
+      const inputLines = this.getAllWithTag(lines, "INPUT");
+      const inputs = this.parseInputs(inputLines);
 
       // Parse and instantiate the nodes
-      // TODO: Can we use the JS/TS parser to parse nodes?
-      const nodes: Record<string, Node<NodeProps>> = {};
-      while (this.hasNode(declarations)) {
-        const { startIndex, endIndex, node, name } =
-          this.parseNode(declarations);
-        declarations =
-          declarations.substring(0, startIndex) +
-          declarations.substring(endIndex + 1);
-        nodes[name] = node;
-      }
+      const nodes = this.parseNodes(lines, tags);
 
       // Construct the graph
       const graph = new Graph(title);
+      graph.addHardware(hardware);
+
+      // Add nodes
+      const mapNodeRegex = /\[[a-zA-Z0-9_]+\]/;
       for (const nodeName of pipeline) {
+        if (mapNodeRegex.test(nodeName)) {
+          // TODO: Support map nodes on graphs
+          // Map node. Ignore for now
+          continue;
+        }
         const node = nodes[nodeName];
         graph.addNode(nodeName, node);
+      }
+
+      // Add runtime parameters to nodes
+      for (const [node, property] of inputs) {
+        graph.addInput(node, property);
       }
 
       return graph;
@@ -79,6 +76,58 @@ export default class GraphLoader {
     }
   }
 
+  /**
+   * Parse runtime input programs for the graph
+   */
+  private static parseInputs(inputLines: string[]): [string, string][] {
+    const inputs = [] as [string, string][];
+    for (const line of inputLines) {
+      const tokens = line.split(".");
+      if (tokens.length < 2) {
+        throw new ParseError(`Malformed graph input: ${line}`);
+      }
+      const [node, property] = tokens;
+      inputs.push([node, property]);
+    }
+    return inputs;
+  }
+
+  /**
+   * Parse nodes in the specified manifest.
+   * `otherTags` is a list of tags that indicate other lines to remove
+   */
+  private static parseNodes(
+    lines: string[],
+    otherTags: string[]
+  ): Record<string, Node<NodeProps>> {
+    // Filter out irrelevant lines
+    let declarations = lines
+      .filter((line) => {
+        for (const other of otherTags) {
+          if (line.startsWith(other) || line.length == 0) {
+            return false;
+          }
+        }
+        return true;
+      })
+      .join("\n")
+      .trim();
+
+    const nodes: Record<string, Node<NodeProps>> = {};
+    // Parse nodes while any are present
+    while (this.hasNode(declarations)) {
+      const { startIndex, endIndex, node, name } = this.parseNode(declarations);
+      declarations =
+        declarations.substring(0, startIndex) +
+        declarations.substring(endIndex + 1);
+      nodes[name] = node;
+    }
+    return nodes;
+  }
+
+  /**
+   * Returns true if there are still nodes available for parsing in the specified manifest
+   */
   private static hasNode(manifest: string): boolean {
     // Empty string cannot contain node
     if (manifest.length == 0) {
@@ -131,7 +180,7 @@ export default class GraphLoader {
       (property: string) => `"${property.slice(0, property.length - 1)}":`
     );
 
-    const params = JSON.parse(escaped);
+    const params = JSON.parse(escaped) as Record<string, ScalarType>;
     if (params["type"] == null) {
       throw new ParseError(
         "Missing required 'type' in params: " + JSON.stringify(params)
@@ -141,29 +190,10 @@ export default class GraphLoader {
   }
 
   /**
-   * Parse a string-representation of a value into its runtime equivalent
-   */
-  private static parseValue(value: string): ScalarType {
-    if (value.startsWith('"') && value.endsWith('"')) {
-      // String type
-      return value.substring(1, value.length - 1);
-    } else if (value == "true" || value == "false") {
-      // Boolean type
-      return value == "true";
-    } else if (value.indexOf(".") == -1) {
-      // Integer type
-      return parseInt(value);
-    } else {
-      // Float type
-      return parseFloat(value);
-    }
-  }
-
-  /**
    * Get the first value labeled with the specified `tag`
    * Tagged lines follow the format `{tag}: {value}`
    */
-  private static getFirstWithTag(lines: string[], tag: string) {
+  private static getFirstWithTag(lines: string[], tag: string): string {
     tag += ": ";
     const line = lines.find((line) => line.startsWith(tag));
     if (line == null) {
@@ -177,7 +207,7 @@ export default class GraphLoader {
    * Get all values labeled with the specified `tag`
    * Tagged lines follow the format `{tag}: {value}`
    */
-  private static getAllWithTag(lines: string[], tag: string) {
+  private static getAllWithTag(lines: string[], tag: string): string[] {
     const matching = lines.filter((line) => line.startsWith(tag));
     const values = matching.map((line) =>
       line.substring(tag.length + 1).trim()
