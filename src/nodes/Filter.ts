@@ -17,13 +17,13 @@ type FilterOperation =
 type FilterProps = {
   operation: FilterOperation;
   target: string;
-  comparisonValue: ScalarType;
+  targetValue: ScalarType;
 };
 
 @MapAggregateNode("Filter", "Filter payloads based on a predicate")
 export default class Filter extends Node<FilterProps> {
   async process(input: Payload[]): Promise<Payload[]> {
-    const { operation, target, comparisonValue } = this.params;
+    const { operation, target, targetValue: comparisonValue } = this.params;
     const matchingTarget = getMatchingPayloads(input, target);
     const predicate = getPredicate(operation);
     return matchingTarget.filter((payload) =>
@@ -42,7 +42,7 @@ export default class Filter extends Node<FilterProps> {
         description: "The target property on the payload to compare",
         defaultValue: "contentValue",
       },
-      comparisonValue: {
+      targetValue: {
         description: "The value to compare against",
       },
     };
