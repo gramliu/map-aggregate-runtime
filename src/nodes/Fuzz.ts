@@ -18,17 +18,16 @@ type FuzzProps = {
   "Convert a fine-grained number into a format with coarser granularity"
 )
 export default class Fuzz extends Node<FuzzProps> {
-  async process(input: Payload[]): Promise<Payload[]> {
-    const { fuzzType, target } = this.params;
+  async process(
+    input: Payload[],
+    params?: Partial<FuzzProps>
+  ): Promise<Payload[]> {
+    const { fuzzType, target, rangeStart, rangeSize } =
+      this.getLocalParams(params);
     const matching = getMatchingPayloads(input, target);
     switch (fuzzType) {
       case "range":
-        return fuzzPayloadsIntoRange(
-          matching,
-          target,
-          this.params.rangeStart,
-          this.params.rangeSize
-        );
+        return fuzzPayloadsIntoRange(matching, target, rangeStart, rangeSize);
 
       case "percent":
         return fuzzPayloadsIntoPercent(matching, target);

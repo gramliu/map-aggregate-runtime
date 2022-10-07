@@ -18,14 +18,31 @@ export default abstract class Node<P extends NodeProps> {
 
   /**
    * Process a set of `input`, as described by the node's `inputs`
-   * to a set of outputs, as described by the node's `output`s
+   * to a set of outputs, as described by the node's `output`s.
+   * If `params` is specified, it overrides the construction-time parameters
+   * for this local invocation
    */
-  abstract process(input: Payload[]): Promise<Payload[]>;
+  abstract process(input: Payload[], params?: Partial<P>): Promise<Payload[]>;
 
   /**
    * Return the schema associated with this node
    */
   abstract getSchema(): Schema<Required<P>>;
+
+  /**
+   * Returns the local params for an invocation
+   * This returns a parameter object of type `P` with the
+   * construction-time parameters replaced with the parameters
+   * specified in `params`
+   */
+  protected getLocalParams(params?: Partial<P>): P {
+    const localParams = this.params;
+    const entries = Object.entries(params ?? {}) as [keyof P, P[keyof P]][];
+    for (const [key, val] of entries) {
+      localParams[key] = val;
+    }
+    return localParams;
+  }
 
   /**
    * Returns true if this node has the specified property and false otherwise

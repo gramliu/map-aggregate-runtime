@@ -35,9 +35,12 @@ const singularOperation = ["count", "average", "sum"] as AggregateOperation[];
   "Perform aggregation operations on an array of data"
 )
 export default class Aggregate extends Node<AggregateProps> {
-  async process(input: Payload[]): Promise<Payload[]> {
+  async process(
+    input: Payload[],
+    params?: Partial<AggregateProps>
+  ): Promise<Payload[]> {
+    let { operation, target, groupKey } = this.getLocalParams(params);
     let value;
-    let { operation, target, groupKey } = this.params;
 
     if (singularOperation.indexOf(operation as AggregateOperation) != -1) {
       // Operations that emit exactly one payload

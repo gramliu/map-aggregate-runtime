@@ -9,9 +9,13 @@ type ExtractProps = {
 
 @MapAggregateNode("Extract", "Extract semantic information from payloads")
 export default class Extract extends Node<ExtractProps> {
-  async process(input: Payload[]): Promise<Payload[]> {
+  async process(
+    input: Payload[],
+    params?: Partial<ExtractProps>
+  ): Promise<Payload[]> {
+    const { contentType } = this.getLocalParams(params);
     let payload: Payload;
-    switch (this.params.contentType) {
+    switch (contentType) {
       case "median":
         payload = this.getMedian(input);
         break;

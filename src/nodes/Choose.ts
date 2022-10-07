@@ -9,11 +9,15 @@ type ChooseProps = {
 
 @MapAggregateNode("Choose", "Choose the first k payloads")
 export default class Choose extends Node<ChooseProps> {
-  async process(input: Payload[]): Promise<Payload[]> {
-    if (input.length < this.params.count) {
+  async process(
+    input: Payload[],
+    params?: Partial<ChooseProps>
+  ): Promise<Payload[]> {
+    const { count } = this.getLocalParams(params);
+    if (input.length < count) {
       return input;
     } else {
-      return input.slice(0, this.params.count);
+      return input.slice(0, count);
     }
   }
 

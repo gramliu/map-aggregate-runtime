@@ -22,8 +22,15 @@ type FilterProps = {
 
 @MapAggregateNode("Filter", "Filter payloads based on a predicate")
 export default class Filter extends Node<FilterProps> {
-  async process(input: Payload[]): Promise<Payload[]> {
-    const { operation, target, targetValue: comparisonValue } = this.params;
+  async process(
+    input: Payload[],
+    params?: Partial<FilterProps>
+  ): Promise<Payload[]> {
+    const {
+      operation,
+      target,
+      targetValue: comparisonValue,
+    } = this.getLocalParams(params);
     const matchingTarget = getMatchingPayloads(input, target);
     const predicate = getPredicate(operation);
     return matchingTarget.filter((payload) =>
