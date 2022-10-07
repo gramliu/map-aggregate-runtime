@@ -27,7 +27,7 @@ export default class Filter extends Node<FilterProps> {
     const matchingTarget = getMatchingPayloads(input, target);
     const predicate = getPredicate(operation);
     return matchingTarget.filter((payload) =>
-      predicate(payload.contentValue, comparisonValue)
+      predicate(payload[target], comparisonValue)
     );
   }
 

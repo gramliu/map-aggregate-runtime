@@ -28,9 +28,7 @@ export default class GraphLoader {
       const lines = graphString.split("\n");
 
       const title = this.getFirstWithTag(lines, "TITLE");
-      const hardware = JSON.parse(
-        this.getFirstWithTag(lines, "HARDWARE")
-      ).toString();
+      const hardware = this.getFirstWithTag(lines, "HARDWARE").toString();
       const pipeline = this.getFirstWithTag(lines, "PIPELINE")
         .split("->")
         .map((node) => node.trim());
