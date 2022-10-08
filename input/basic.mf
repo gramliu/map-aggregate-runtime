@@ -11,4 +11,4 @@ Count(
   operation: "count"
 )
 
-INPUT: Sum.operation
+PARAMETER: Sum.operation

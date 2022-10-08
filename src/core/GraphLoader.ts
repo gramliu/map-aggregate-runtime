@@ -19,12 +19,13 @@ export default class GraphLoader {
   /**
    * Generate a graph from a string
    *
-   * @throws an error if an expected component was not found
+   * @throws an error if an expected component was not found or
+   * an error otherwise occured while parsing
    */
   public static parse(graphString: string): Graph {
     this.loadNodes();
     try {
-      const tags = ["TITLE", "PIPELINE", "INPUT", "HARDWARE"];
+      const tags = ["TITLE", "PIPELINE", "PARAMETER", "HARDWARE"];
       const lines = graphString.split("\n");
 
       const title = this.getFirstWithTag(lines, "TITLE");
@@ -32,8 +33,8 @@ export default class GraphLoader {
       const pipeline = this.getFirstWithTag(lines, "PIPELINE")
         .split("->")
         .map((node) => node.trim());
-      const inputLines = this.getAllWithTag(lines, "INPUT");
-      const inputs = this.parseInputs(inputLines);
+      const parameterLines = this.getAllWithTag(lines, "PARAMETER");
+      const parameters = this.parseParameters(parameterLines);
 
       // Parse and instantiate the nodes
       const nodes = this.parseNodes(lines, tags);
@@ -55,8 +56,8 @@ export default class GraphLoader {
       }
 
       // Add runtime parameters to nodes
-      for (const [node, property] of inputs) {
-        graph.addInput(node, property);
+      for (const [node, property] of parameters) {
+        graph.addParameter(node, property);
       }
 
       return graph;
@@ -75,14 +76,14 @@ export default class GraphLoader {
   }
 
   /**
-   * Parse runtime input programs for the graph
+   * Parse runtime parameters for the graph
    */
-  private static parseInputs(inputLines: string[]): [string, string][] {
+  private static parseParameters(parameterLines: string[]): [string, string][] {
     const inputs = [] as [string, string][];
-    for (const line of inputLines) {
+    for (const line of parameterLines) {
       const tokens = line.split(".");
       if (tokens.length < 2) {
-        throw new ParseError(`Malformed graph input: ${line}`);
+        throw new ParseError(`Malformed graph parameter: ${line}`);
       }
       const [node, property] = tokens;
       inputs.push([node, property]);
