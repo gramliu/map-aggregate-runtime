@@ -1,5 +1,5 @@
-import GraphLoader from "@core/GraphLoader";
-import Payload from "@core/Payload";
+import GraphLoader from "../core/GraphLoader";
+import Payload from "../core/Payload";
 import * as fs from "fs";
 
 test("Graph execution works normally", async () => {

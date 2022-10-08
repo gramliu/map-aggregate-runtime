@@ -1,5 +1,5 @@
-import { processPayloads } from "@test/testUtil/testUtil";
-import Choose from "@nodes/Choose";
+import { processPayloads } from "../testUtil";
+import Choose from "../../nodes/Choose";
 
 test("Choose gets no more than k payloads", async () => {
   const chooseNode = new Choose({ count: 5 });
