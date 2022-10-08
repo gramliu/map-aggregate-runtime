@@ -7,7 +7,10 @@ export type NodeParameterOverride = Record<string, ScalarType>;
 export type GraphParameterOverride = Record<string, NodeParameterOverride>;
 
 /**
- * A graph represents a set of nodes and their connections
+ * A graph represents a linked list of executable nodes
+ * Each node operates on an array of Payloads as its input and outputs it to the next node
+ * Additional runtime parameters can be configured and passed into the graph at runtime
+ *  as opposed to construction-time
  */
 export default class Graph {
   private readonly pipeline: string[];
@@ -34,25 +37,15 @@ export default class Graph {
    */
   public async execute(
     data: Payload[] = [],
-    overrides: GraphParameterOverride = {},
-    debug: boolean = false
+    overrides: GraphParameterOverride = {}
   ): Promise<Payload[]> {
     this.assertValidOverride(overrides);
 
     let payloads: Payload[] = data;
     for (const nodeName of this.pipeline) {
       const node = this.nodeRegistry[nodeName];
-      if (debug) {
-        console.log(`Running node: ${nodeName} (${node.getType()})`);
-        console.log("Data:", payloads);
-      }
-
       const paramOverrides = overrides[nodeName] ?? {};
       payloads = await node.process(payloads, paramOverrides);
-    }
-    if (debug) {
-      console.log("Output:", payloads);
-      console.log("=====");
     }
     return payloads;
   }
@@ -112,6 +105,13 @@ export default class Graph {
    */
   public addHardware(hardware: string) {
     this.requiredHardware.push(hardware);
+  }
+
+  /**
+   * Returns the hardware used by this graph
+   */
+  public getHardware(): string[] {
+    return this.requiredHardware.slice();
   }
 
   /**
