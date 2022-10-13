@@ -1,3 +1,5 @@
+// @ts-ignore
+
 export { default as Aggregate } from "./Aggregate";
 export { default as Choose } from "./Choose";
 export { default as Extract } from "./Extract";

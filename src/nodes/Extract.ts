@@ -4,10 +4,15 @@ import Schema from "../core/Schema";
 import { MapAggregateNode } from "../core";
 
 type ExtractProps = {
-  contentType: "median" | "ARIMA" | "DBSCAN" | "kriging" | "trilaterate";
+  contentType:
+    | "median"
+    | "DBSCAN"
+    | "kriging"
+    | "trilaterate"
+    | "address";
 };
 
-@MapAggregateNode("Extract", "Extract semantic information from payloads")
+@MapAggregateNode("Extract", "Extract semantic information from each payload")
 export default class Extract extends Node<ExtractProps> {
   async process(
     input: Payload[],

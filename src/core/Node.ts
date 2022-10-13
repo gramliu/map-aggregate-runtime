@@ -8,10 +8,15 @@ export type NodeProps = Record<string, unknown>;
  */
 export default abstract class Node<P extends NodeProps> {
   constructor(protected readonly params: P) {
-    const entries: [keyof P, unknown][] = Object.entries(params);
-    for (const [key, val] of entries) {
+    const schema = this.getSchema();
+    const keys = Object.keys(schema) as (keyof P)[];
+    for (const key of keys) {
+      const val = this.params[key];
       if (val == null) {
-        this.params[key] = this.getSchema()[key].defaultValue;
+        if (schema[key].defaultValue == null) {
+          throw new Error(`Missing parameter for required argument: ${key.toString()}`);
+        }
+        this.params[key] = schema[key].defaultValue;
       }
     }
   }
