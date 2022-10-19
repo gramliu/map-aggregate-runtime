@@ -6,6 +6,7 @@
     "nodes/Filter",
     "nodes/Fuzz",
     "nodes/Rank",
-    "nodes/Predict"
+    "nodes/Predict",
+    "nodes/Pull"
   ]
 }
