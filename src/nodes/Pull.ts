@@ -15,8 +15,8 @@ type TemporalUnit =
 type SpatialUnit = "METERS" | "KILOMETERS" | "MILES";
 
 type PullProps = {
-  duration: number;
-  durationUnit: TemporalUnit;
+  staleness: number;
+  stalenessUnit: TemporalUnit;
   interval: number;
   intervalUnit: TemporalUnit;
   lat: number;
@@ -39,12 +39,12 @@ export default class Choose extends Node<PullProps> {
 
   getSchema(): Schema<Required<PullProps>> {
     return {
-      duration: {
+      staleness: {
         description: "The maximum amount of time to store data for",
       },
-      durationUnit: {
+      stalenessUnit: {
         description:
-          "The temporal unit (seconds, minutes, etc.) used in the duration",
+          "The temporal unit (seconds, minutes, etc.) used in the staleness",
         defaultValue: "DAYS",
       },
       interval: {
