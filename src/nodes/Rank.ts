@@ -4,7 +4,7 @@ import getMatchingPayloads from "../util/getMatchingPayloads";
 import MapAggregateNode from "../core/MapAggregateNode";
 import Node from "../core/Node";
 
-type RankProps = {
+export type RankProps = {
   target: string;
 };
 

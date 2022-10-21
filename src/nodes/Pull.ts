@@ -3,7 +3,7 @@ import Payload from "../core/Payload";
 import Schema from "../core/Schema";
 import { MapAggregateNode } from "../core";
 
-type TemporalUnit =
+export type TemporalUnit =
   | "MILLIS"
   | "SECONDS"
   | "MINUTES"
@@ -12,15 +12,15 @@ type TemporalUnit =
   | "MONTHS"
   | "YEARS";
 
-type SpatialUnit = "METERS" | "KILOMETERS" | "MILES";
+export type SpatialUnit = "METERS" | "KILOMETERS" | "MILES";
 
-type PullProps = {
+export type PullProps = {
   staleness: number;
   stalenessUnit: TemporalUnit;
   interval: number;
   intervalUnit: TemporalUnit;
-  lat: number;
-  lng: number;
+  lat?: number;
+  lng?: number;
   radius: number;
   radiusUnit: SpatialUnit;
 };
@@ -29,7 +29,7 @@ type PullProps = {
   "Pull",
   "No-op that describes the frequency and location of data collection"
 )
-export default class Choose extends Node<PullProps> {
+export default class Pull extends Node<PullProps> {
   async process(
     input: Payload[],
     params?: Partial<PullProps>

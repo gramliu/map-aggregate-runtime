@@ -4,7 +4,7 @@ import Schema from "../core/Schema";
 import getMatchingPayloads from "../util/getMatchingPayloads";
 import { MapAggregateNode } from "../core";
 
-type FilterOperation =
+export type FilterOperation =
   | "==="
   | "!=="
   | ">"
@@ -14,7 +14,7 @@ type FilterOperation =
   | "includes"
   | "not includes";
 
-type FilterProps = {
+export type FilterProps = {
   operation: FilterOperation;
   target: string;
   targetValue: ScalarType;

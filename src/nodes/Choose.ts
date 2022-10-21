@@ -3,7 +3,7 @@ import Payload from "../core/Payload";
 import Schema from "../core/Schema";
 import { MapAggregateNode } from "../core";
 
-type ChooseProps = {
+export type ChooseProps = {
   count: number;
 };
 

@@ -2,10 +2,12 @@ import Node from "../core/Node";
 import Payload from "../core/Payload";
 import Schema from "../core/Schema";
 import { MapAggregateNode } from "../core";
+import { DateTime } from "luxon"
 
-type ExtractProps = {
+export type ExtractProps = {
   contentType:
     | "median"
+    | "time"
     | "DBSCAN"
     | "kriging"
     | "trilaterate"
@@ -22,8 +24,11 @@ export default class Extract extends Node<ExtractProps> {
     let payload: Payload;
     switch (contentType) {
       case "median":
-        payload = this.getMedian(input);
+        payload = getMedian(input);
         break;
+
+      case "time":
+        return annotateTime(input);
     }
     return [payload];
   }
@@ -36,18 +41,40 @@ export default class Extract extends Node<ExtractProps> {
       },
     };
   }
+}
 
-  /**
-   * Returns the median payload from the input.
-   * @throws Error if there are no matching payloads
-   */
-  getMedian(input: Payload[]): Payload {
-    const sorted = input.sort((payloadA, payloadB) =>
-      payloadA > payloadB ? 1 : -1
-    );
-    if (sorted.length == 0) {
-      throw new Error("No matching payloads for median!");
-    }
-    return input[sorted.length / 2];
+/**
+ * Returns the median payload from the input.
+ * @throws Error if there are no matching payloads
+ */
+function getMedian(payloads: Payload[]): Payload {
+  const sorted = payloads.sort((payloadA, payloadB) =>
+    payloadA > payloadB ? 1 : -1
+  );
+  if (sorted.length == 0) {
+    throw new Error("No matching payloads for median!");
   }
+  return payloads[sorted.length / 2];
+}
+
+/**
+ * Annotate time on payloads with millis timestamps
+ */
+function annotateTime(payloads: Payload[]): Payload[] {
+  return payloads.map((payload) => {
+    if (payload.timestamp == null) {
+      throw new Error("Missing timestamp on payload!");
+    }
+
+    const dateTime = DateTime.fromMillis(payload.timestamp);
+    return {
+      ...payload,
+      second: dateTime.second,
+      minute: dateTime.minute,
+      hour: dateTime.hour,
+      day: dateTime.day,
+      month: dateTime.month,
+      year: dateTime.year,
+    }
+  });
 }

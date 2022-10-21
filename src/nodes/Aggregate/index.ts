@@ -14,15 +14,15 @@ import {
   getPayloadSum,
 } from "./operations/singular";
 
-type AggregateProps = {
+export type AggregateProps = {
   operation:
     | "count"
     | "average"
     | "sum"
     | "rank"
-    | "histogram_frequency"
-    | "group_average"
-    | "group_sum";
+    | "histogramFrequency"
+    | "groupAverage"
+    | "groupSum";
   target?: string;
   groupKey?: string;
 };
@@ -67,13 +67,13 @@ export default class Aggregate extends Node<AggregateProps> {
     } else {
       // Operations that can emit more than one payload
       switch (operation) {
-        case "histogram_frequency":
+        case "histogramFrequency":
           return getFrequencyHistogram(input, target);
 
-        case "group_average":
+        case "groupAverage":
           return getGroupAverage(input, target, groupKey);
 
-        case "group_sum":
+        case "groupSum":
           return getGroupSum(input, target, groupKey);
       }
     }

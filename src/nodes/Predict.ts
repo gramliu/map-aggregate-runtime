@@ -4,7 +4,7 @@ import Schema from "../core/Schema";
 import { MapAggregateNode } from "../core";
 import Arima from "arima";
 
-type PredictProps = {
+export type PredictProps = {
   target?: string;
   steps: number;
   p?: number;

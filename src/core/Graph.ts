@@ -33,7 +33,6 @@ export default class Graph {
    * Each key in `input` should correspond to a node on this graph.
    * Each corresponding value should be a mapping of properties on that node
    * to the overriding values
-   * @param debug if true, prints the output after each node
    */
   public async execute(
     data: Payload[] = [],
@@ -98,6 +97,14 @@ export default class Graph {
    */
   public hasNode(name: string): boolean {
     return this.nodeRegistry[name] != null;
+  }
+
+  /**
+   * Returns a copy of the nodes associated with this graph
+   */
+  public getNodes(): Record<string, Node<NodeProps>> {
+    // TODO: Adopt more robust defensive copying
+    return { ...this.nodeRegistry };
   }
 
   /**

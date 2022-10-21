@@ -7,9 +7,8 @@ export default interface Payload {
   contentType: string;
   contentValue: ScalarType;
   timestamp?: number;
-  geo?: {
-    lat: number;
-    lon: number;
-  };
+  lat?: number;
+  lon?: number;
+  addressLabel?: string;
   [key: string]: any;
 }

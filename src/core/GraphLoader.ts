@@ -173,7 +173,7 @@ export default class GraphLoader {
    */
   private static parseParams(paramsStr: string): Record<string, ScalarType> {
     // Surround unescaped keys with quotation marks
-    const regex = new RegExp(/([a-zA-Z][a-zA-Z0-9_]+:)/g);
+    const regex = new RegExp(/([a-zA-Z][a-zA-Z0-9_]*:)/g);
     const escaped = paramsStr.replace(
       regex,
       (property: string) => `"${property.slice(0, property.length - 1)}":`

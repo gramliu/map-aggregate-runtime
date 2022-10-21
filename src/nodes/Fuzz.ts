@@ -4,7 +4,7 @@ import getMatchingPayloads from "../util/getMatchingPayloads";
 import MapAggregateNode from "../core/MapAggregateNode";
 import Node from "../core/Node";
 
-type FuzzProps = {
+export type FuzzProps = {
   fuzzType: "likert" | "range" | "percent";
   target: string;
   likertMean?: number;

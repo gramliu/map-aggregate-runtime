@@ -13,8 +13,10 @@ export default abstract class Node<P extends NodeProps> {
     for (const key of keys) {
       const val = this.params[key];
       if (val == null) {
-        if (schema[key].defaultValue == null) {
-          throw new Error(`Missing parameter for required argument: ${key.toString()}`);
+        if (schema[key].defaultValue == null && schema[key].required) {
+          throw new Error(
+            `Missing parameter for required argument: ${key.toString()}`
+          );
         }
         this.params[key] = schema[key].defaultValue;
       }
@@ -35,12 +37,19 @@ export default abstract class Node<P extends NodeProps> {
   abstract getSchema(): Schema<Required<P>>;
 
   /**
+   * Returns the parameters associated with this node
+   */
+  public getParams(): P {
+    return { ...this.params }
+  }
+
+  /**
    * Returns the local params for an invocation
    * This returns a parameter object of type `P` with the
    * construction-time parameters replaced with the parameters
    * specified in `params`
    */
-  protected getLocalParams(params?: Partial<P>): P {
+  public getLocalParams(params?: Partial<P>): P {
     const localParams = this.params;
     const entries = Object.entries(params ?? {}) as [keyof P, P[keyof P]][];
     for (const [key, val] of entries) {
