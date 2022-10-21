@@ -6,6 +6,11 @@ import Payload, { ScalarType } from "./Payload";
 export type NodeParameterOverride = Record<string, ScalarType>;
 export type GraphParameterOverride = Record<string, NodeParameterOverride>;
 
+export interface BenchmarkResult {
+  result: Payload[];
+  performance: Record<string, number>;
+}
+
 /**
  * A graph represents a linked list of executable nodes
  * Each node operates on an array of Payloads as its input and outputs it to the next node
@@ -47,6 +52,32 @@ export default class Graph {
       payloads = await node.process(payloads, paramOverrides);
     }
     return payloads;
+  }
+
+  /**
+   * Execute the graph but also measure time elapsed for each node
+   */
+  public async benchmark(
+    data: Payload[] = [],
+    overrides: GraphParameterOverride = {}
+  ): Promise<BenchmarkResult> {
+    this.assertValidOverride(overrides);
+
+    const performance = {} as Record<string, number>;
+    let payloads: Payload[] = data;
+    for (const nodeName of this.pipeline) {
+      const node = this.nodeRegistry[nodeName];
+      const paramOverrides = overrides[nodeName] ?? {};
+      const start = Date.now();
+      payloads = await node.process(payloads, paramOverrides);
+      const end = Date.now();
+      performance[nodeName] = end - start;
+    }
+
+    return {
+      result: payloads,
+      performance,
+    };
   }
 
   /**
