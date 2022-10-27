@@ -52,6 +52,9 @@ export default class GraphLoader {
           continue;
         }
         const node = nodes[nodeName];
+        if (node == null) {
+          throw new ParseError(`Unregistered node in pipeline: ${nodeName}`)
+        }
         graph.addNode(nodeName, node);
       }
 
