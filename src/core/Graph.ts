@@ -8,7 +8,13 @@ export type GraphParameterOverride = Record<string, NodeParameterOverride>;
 
 export interface BenchmarkResult {
   result: Payload[];
-  performance: Record<string, number>;
+  performance: NodePerformance[];
+}
+
+export interface NodePerformance {
+  node: string;
+  duration: number;
+  payloadsProcessed: number;
 }
 
 /**
@@ -63,15 +69,20 @@ export default class Graph {
   ): Promise<BenchmarkResult> {
     this.assertValidOverride(overrides);
 
-    const performance = {} as Record<string, number>;
+    const performance = [] as NodePerformance[];
     let payloads: Payload[] = data;
     for (const nodeName of this.pipeline) {
       const node = this.nodeRegistry[nodeName];
       const paramOverrides = overrides[nodeName] ?? {};
+      const payloadsProcessed = payloads.length;
       const start = Date.now();
       payloads = await node.process(payloads, paramOverrides);
       const end = Date.now();
-      performance[nodeName] = end - start;
+      performance.push({
+        node: nodeName,
+        duration: end - start,
+        payloadsProcessed,
+      });
     }
 
     return {
