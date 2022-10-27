@@ -59,7 +59,7 @@ test("Group sum is correct", async () => {
     }
   }
   const node = new Aggregate({
-    operation: "group_sum",
+    operation: "groupSum",
     groupKey: "contentType",
   });
   const output = await node.process(input);
