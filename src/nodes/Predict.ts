@@ -3,6 +3,7 @@ import Payload from "../core/Payload";
 import Schema from "../core/Schema";
 import { MapAggregateNode } from "../core";
 import Arima from "arima";
+import getContentType from "../util/getContentType";
 
 export type PredictProps = {
   target?: string;
@@ -30,13 +31,15 @@ export default class Predict extends Node<PredictProps> {
     if (typeof arimaInput[0] !== "number") {
       throw new Error(`Cannot predict on non-numeric time series data: ${JSON.stringify(this.params)} ${target}`)
     }
+    const contentType = getContentType(input, "prediction");
     const arima = new Arima({ p, d, q, P, D, Q, S, verbose: false }).train(
       arimaInput
     );
     const [prediction, _] = arima.predict(steps);
 
-    return prediction.map((value) => ({
-      contentType: "Prediction",
+    return prediction.map((value, idx) => ({
+      contentType,
+      operationId: `prediction-${idx}`,
       contentValue: value,
     })) as Payload[];
   }

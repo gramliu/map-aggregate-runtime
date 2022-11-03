@@ -2,6 +2,7 @@ import Payload from "../../../core/Payload";
 import { groupPayloads } from "../index";
 import { getPayloadSum } from "./singular";
 import getMatchingPayloads from "../../../util/getMatchingPayloads";
+import getContentType from "../../../util/getContentType";
 
 /**
  * Returns a mapping of unique values for the `target` property
@@ -11,10 +12,12 @@ export function getFrequencyHistogram(
   input: Payload[],
   target: string = "contentValue"
 ): Payload[] {
+  const contentType = getContentType(input, "frequency");
   const groups = groupPayloads(input, target);
   const frequencies = Object.entries(groups).map(([targetValue, payloads]) => ({
-    contentType: `frequency ${targetValue}`,
+    contentType,
     contentValue: payloads.length,
+    operationId: `frequency-${targetValue}`,
   }));
   return frequencies;
 }
@@ -29,10 +32,12 @@ export function getGroupSum(
   groupKey: string = "contentType"
 ): Payload[] {
   const matching = getMatchingPayloads(input, target);
+  const contentType = getContentType(matching, "group sum")
   const groups = groupPayloads(matching, groupKey);
   const sums = Object.entries(groups).map(([groupKey, payloads]) => ({
-    contentType: `group sum ${groupKey}`,
+    contentType,
     contentValue: getPayloadSum(payloads, target),
+    operationId: `group-sum-${groupKey}`,
   }));
   return sums;
 }
@@ -47,10 +52,12 @@ export function getGroupAverage(
   groupKey: string = "contentType"
 ): Payload[] {
   const matching = getMatchingPayloads(input, target);
+  const contentType = getContentType(matching, "group average")
   const groups = groupPayloads(matching, groupKey);
   const averages = Object.entries(groups).map(([groupKey, payloads]) => ({
-    contentType: `group average ${groupKey}`,
+    contentType,
     contentValue: getPayloadSum(payloads, target) / payloads.length,
+    operationId: `group-average-${groupKey}`,
   }));
   return averages;
 }

@@ -49,15 +49,8 @@ export default class Graph {
     data: Payload[] = [],
     overrides: GraphParameterOverride = {}
   ): Promise<Payload[]> {
-    this.assertValidOverride(overrides);
-
-    let payloads: Payload[] = data;
-    for (const nodeName of this.pipeline) {
-      const node = this.nodeRegistry[nodeName];
-      const paramOverrides = overrides[nodeName] ?? {};
-      payloads = await node.process(payloads, paramOverrides);
-    }
-    return payloads;
+    const { result, performance } = await this.benchmark(data, overrides);
+    return result;
   }
 
   /**
@@ -85,8 +78,26 @@ export default class Graph {
       });
     }
 
+    // Remove additional metadata
+    const outputPayloads = payloads.map((payload) => {
+      const { contentType, contentValue, operationId } = payload;
+
+      // Merge operationId into final output payload
+      if (operationId) {
+        return {
+          contentType: `${contentType}-${operationId}`,
+          contentValue
+        }
+      } else {
+        return {
+          contentType,
+          contentValue
+        }
+      }
+    });
+
     return {
-      result: payloads,
+      result: outputPayloads,
       performance,
     };
   }

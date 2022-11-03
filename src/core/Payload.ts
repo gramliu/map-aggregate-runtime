@@ -10,5 +10,6 @@ export default interface Payload {
   lat?: number;
   lon?: number;
   addressLabel?: string;
+  operationId?: string;
   [key: string]: any;
 }

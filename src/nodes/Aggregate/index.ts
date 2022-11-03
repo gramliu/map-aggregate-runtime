@@ -13,6 +13,7 @@ import {
   getPayloadCount,
   getPayloadSum,
 } from "./operations/singular";
+import getContentType from "../../util/getContentType";
 
 export type AggregateProps = {
   operation:
@@ -40,6 +41,7 @@ export default class Aggregate extends Node<AggregateProps> {
     params?: Partial<AggregateProps>
   ): Promise<Payload[]> {
     let { operation, target, groupKey } = this.getLocalParams(params);
+    const contentType = getContentType(input, operation)
     let value;
 
     if (singularOperation.indexOf(operation as AggregateOperation) != -1) {
@@ -60,8 +62,9 @@ export default class Aggregate extends Node<AggregateProps> {
 
       return [
         {
-          contentType: operation,
+          contentType,
           contentValue: value,
+          operationId: operation,
         },
       ];
     } else {
