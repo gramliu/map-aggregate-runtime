@@ -78,26 +78,8 @@ export default class Graph {
       });
     }
 
-    // Remove additional metadata
-    const outputPayloads = payloads.map((payload) => {
-      const { contentType, contentValue, operationId } = payload;
-
-      // Merge operationId into final output payload
-      if (operationId) {
-        return {
-          contentType: `${contentType}-${operationId}`,
-          contentValue
-        }
-      } else {
-        return {
-          contentType,
-          contentValue
-        }
-      }
-    });
-
     return {
-      result: outputPayloads,
+      result: payloads,
       performance,
     };
   }
