@@ -12,14 +12,14 @@ MatchStreet(
   type: "Filter",
   operation: "===",
   target: "streetName",
-  comparisonValue: "Forbes Avenue"
+  targetValue: "Forbes Avenue"
 )
 Count(
   type: "Aggregate",
   operation: "count"
 )
 
-INPUT: MatchStreet.comparisonValue
+INPUT: MatchStreet.targetValue
 ```
 
 ## Parameters
@@ -31,7 +31,7 @@ MatchStreet(
   type: "Filter",
   operation: "===",
   target: "streetName",
-  comparisonValue: "Forbes Avenue"
+  targetValue: "Forbes Avenue"
 )
 ```
 `type` is a required parameter for every node declaration. This declares the type of the node.

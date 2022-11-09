@@ -13,6 +13,7 @@ export type TemporalUnit =
   | "YEARS";
 
 export type SpatialUnit = "METERS" | "KILOMETERS" | "MILES";
+export type QueryType = "ALL" | "LATEST" | "RANGE";
 
 export type PullProps = {
   staleness: number;
@@ -23,6 +24,7 @@ export type PullProps = {
   lng?: number;
   radius: number;
   radiusUnit: SpatialUnit;
+  queryType: QueryType;
 };
 
 @MapAggregateNode(
@@ -69,6 +71,10 @@ export default class Pull extends Node<PullProps> {
           "The spatial unit (meters, kilometers, miles) used in the radius",
         defaultValue: "METERS",
       },
+      queryType: {
+        description: "The type of data to query from map lambdas: ALL, LATEST, or RANGE",
+        defaultValue: "ALL"
+      }
     };
   }
 }
