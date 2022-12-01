@@ -20,7 +20,9 @@ export default class Extract extends Node<ExtractProps> {
     input: Payload[],
     params?: Partial<ExtractProps>
   ): Promise<Payload[]> {
+    console.log("Runtime params", params);
     const { contentType } = this.getLocalParams(params);
+    console.log("ExtractTime", contentType)
     let payload: Payload;
     switch (contentType) {
       case "median":
@@ -29,6 +31,9 @@ export default class Extract extends Node<ExtractProps> {
 
       case "time":
         return annotateTime(input);
+
+      default:
+        throw new Error(`Unsupported Extract contentType: ${contentType}`)
     }
     return [payload];
   }
@@ -37,7 +42,6 @@ export default class Extract extends Node<ExtractProps> {
     return {
       contentType: {
         description: "The type of content to extract from the payloads",
-        defaultValue: "median",
       },
     };
   }

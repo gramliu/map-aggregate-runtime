@@ -49,7 +49,7 @@ export default class Graph {
     data: Payload[] = [],
     overrides: GraphParameterOverride = {}
   ): Promise<Payload[]> {
-    const { result, performance } = await this.benchmark(data, overrides);
+    const { result } = await this.benchmark(data, overrides);
     return result;
   }
 
@@ -69,7 +69,9 @@ export default class Graph {
       const paramOverrides = overrides[nodeName] ?? {};
       const payloadsProcessed = payloads.length;
       const start = Date.now();
+
       payloads = await node.process(payloads, paramOverrides);
+
       const end = Date.now();
       performance.push({
         node: nodeName,

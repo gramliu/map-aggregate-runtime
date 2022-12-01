@@ -68,7 +68,7 @@ export default class Aggregate extends Node<AggregateProps> {
         },
       ];
     } else {
-      // Operations that can emit more than one payload
+      // Operations that emit an array of payloads
       switch (operation) {
         case "histogramFrequency":
           return getFrequencyHistogram(input, target);

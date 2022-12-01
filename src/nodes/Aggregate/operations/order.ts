@@ -14,10 +14,11 @@ export function getFrequencyHistogram(
 ): Payload[] {
   const contentType = getContentType(input, "frequency");
   const groups = groupPayloads(input, target);
-  const frequencies = Object.entries(groups).map(([targetValue, payloads]) => ({
+  const frequencies = Object.entries(groups).map(([groupKey, payloads]) => ({
     contentType,
     contentValue: payloads.length,
-    operationId: `frequency-${targetValue}`,
+    operationId: "frequency-histogram",
+    groupId: groupKey,
   }));
   return frequencies;
 }
@@ -37,7 +38,8 @@ export function getGroupSum(
   const sums = Object.entries(groups).map(([groupKey, payloads]) => ({
     contentType,
     contentValue: getPayloadSum(payloads, target),
-    operationId: `group-sum-${groupKey}`,
+    operationId: "group-sum",
+    groupId: groupKey,
   }));
   return sums;
 }
@@ -57,7 +59,8 @@ export function getGroupAverage(
   const averages = Object.entries(groups).map(([groupKey, payloads]) => ({
     contentType,
     contentValue: getPayloadSum(payloads, target) / payloads.length,
-    operationId: `group-average-${groupKey}`,
+    operationId: "group-average",
+    groupId: groupKey,
   }));
   return averages;
 }
