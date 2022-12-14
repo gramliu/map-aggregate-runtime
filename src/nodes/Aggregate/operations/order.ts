@@ -20,6 +20,7 @@ export function getFrequencyHistogram(
     operationId: "frequency-histogram",
     groupId: groupKey,
   }));
+  frequencies.sort((a, b) => b.contentValue - a.contentValue)
   return frequencies;
 }
 
@@ -41,6 +42,7 @@ export function getGroupSum(
     operationId: "group-sum",
     groupId: groupKey,
   }));
+  sums.sort((a, b) => b.contentValue - a.contentValue)
   return sums;
 }
 
@@ -62,5 +64,6 @@ export function getGroupAverage(
     operationId: "group-average",
     groupId: groupKey,
   }));
+  averages.sort((a, b) => b.contentValue - a.contentValue);
   return averages;
 }
