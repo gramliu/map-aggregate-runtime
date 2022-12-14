@@ -1,6 +1,6 @@
 {
   "name": "@map-aggregate/runtime",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "description": "A linear flow runtime for the Map-Aggregate project.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -37,6 +37,7 @@
     "arima": "^0.2.5",
     "axios": "^0.27.2",
     "convert": "^4.9.0",
+    "geolib": "^3.3.3",
     "luxon": "^3.0.4",
     "module-alias": "^2.2.2"
   },

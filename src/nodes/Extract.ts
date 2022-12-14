@@ -6,6 +6,7 @@ import {DateTime} from "luxon"
 import {SpatialUnit} from "./Pull";
 import kriging from "@sakitam-gis/kriging"
 import convert from "convert"
+import {computeDestinationPoint} from "geolib";
 
 export type KrigingModel = "gaussian" | "exponential" | "spherical"
 
@@ -154,17 +155,22 @@ function createKrigingMap(payloads: Payload[], lat: number, lng: number, radiusM
     const length = 2 * radiusMeters;
     const interval = length / granularity;
 
-    // top-left points
-    const startX = lng - radiusMeters;
-    const startY = lat + radiusMeters;
+    // top-left points (d = r * sqrt(2) from origin)
+    const {longitude: startX, latitude: startY} = computeDestinationPoint({lng, lat}, radiusMeters * Math.sqrt(2), 135)
 
     // (granularity x granularity) 2D array
     const grid = new Array(granularity).fill(0).map(_ => new Array(granularity).fill(0))
     for (let i = 0; i < granularity; i++) {
         for (let j = 0; j < granularity; j++) {
+            const dx = i * interval
+            const dy = j * interval
+            const d = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2))
+            const deg = Math.atan(-dy / dx) * (180 / Math.PI);
+
+            const {longitude: x, latitude: y} = computeDestinationPoint({lng: startX, lat: startY}, d, deg)
             const pred = kriging.predict(
-                startX + i * interval,
-                startY + j * interval,
+                x,
+                y,
                 variogram
             )
             grid[i][j] = {
