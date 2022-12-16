@@ -8,7 +8,7 @@ export default interface Payload {
   contentValue: ScalarType;
   timestamp?: number;
   lat?: number;
-  lng?: number;
+  lon?: number;
   addressLabel?: string;
   operationId?: string;
   [key: string]: any;

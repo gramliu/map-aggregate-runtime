@@ -70,8 +70,12 @@ test("Group sum is correct", async () => {
   const elementSum = (elementCount * (elementCount - 1)) / 2;
   for (let i = 0; i < groupCount; i++) {
     const payload = output[i];
+    const label = payload.groupId;
+    expect(label.startsWith("Group")).toStrictEqual(true);
+
+    const groupIdx = parseInt(label.slice("Group ".length))
     expect(payload.contentValue).toBe(
-      i * elementCount * elementCount + elementSum
+      groupIdx * elementCount * elementCount + elementSum
     );
   }
 });

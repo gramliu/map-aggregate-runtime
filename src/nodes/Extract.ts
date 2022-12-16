@@ -92,7 +92,7 @@ export default class Extract extends Node<ExtractProps> {
             },
             krigingVariance: {
                 description: "The variance of the noise process used for kriging",
-                defaultValue: 0
+                defaultValue: 0.2
             },
             krigingAlpha: {
                 description: "The alpha parameter to be used in kriging",
@@ -148,7 +148,7 @@ function annotateTime(payloads: Payload[]): Payload[] {
  */
 function createKrigingMap(payloads: Payload[], lat: number, lng: number, radiusMeters: number, model: KrigingModel, variance: number, alpha: number, granularity: number): Payload[] {
     const tArray = payloads.map(payload => payload.contentValue as number);
-    const xArray = payloads.map(payload => payload.lng)
+    const xArray = payloads.map(payload => payload.lon)
     const yArray = payloads.map(payload => payload.lat);
 
     const variogram = kriging.train(tArray, xArray, yArray, model, variance, alpha);
@@ -156,7 +156,7 @@ function createKrigingMap(payloads: Payload[], lat: number, lng: number, radiusM
     const interval = length / granularity;
 
     // top-left points (d = r * sqrt(2) from origin)
-    const {longitude: startX, latitude: startY} = computeDestinationPoint({lng, lat}, radiusMeters * Math.sqrt(2), 135)
+    const {longitude: startX, latitude: startY} = computeDestinationPoint({lng, lat}, radiusMeters * Math.sqrt(2), -45)
 
     // (granularity x granularity) 2D array
     const grid = new Array(granularity).fill(0).map(_ => new Array(granularity).fill(0))
@@ -165,7 +165,12 @@ function createKrigingMap(payloads: Payload[], lat: number, lng: number, radiusM
             const dx = i * interval
             const dy = j * interval
             const d = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2))
-            const deg = Math.atan(-dy / dx) * (180 / Math.PI);
+
+            // Need to transform degree to -degree + 90
+            let deg = -90;
+            if (dx != 0) {
+                deg = - Math.atan(-dy / dx) * (180 / Math.PI) + 90;
+            }
 
             const {longitude: x, latitude: y} = computeDestinationPoint({lng: startX, lat: startY}, d, deg)
             const pred = kriging.predict(
